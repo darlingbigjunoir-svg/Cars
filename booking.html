@@ -1,60 +1,215 @@
 <!doctype html>
-
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>EQUIS</title>
-
+    <title>EQUIS - My Bookings</title>
     <link rel="stylesheet" href="css/style.css" />
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="css/booking.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   </head>
   <body id="top">
-     
+
     <div class="top-arrow">
-        <a href="#top"><i class="fa-solid fa-arrow-up"></i></a>
+      <a href="#top"><i class="fa-solid fa-arrow-up"></i></a>
     </div>
 
-   <!---------Header----------------->
-<header>
-  <div class="container">
-    <div class="navbar">
+    
+    <header>
+      <div class="container">
+        <div class="navbar">
 
-      <div class="logo">
-        <h1>EQUIS.</h1>
-      </div>
+          <div class="logo">
+            <img src="images/logo.png" alt="EQUIS" class="logo-img" />
+          </div>
 
-      <nav>
-        <ul>
-          <li><a href="index.html" >Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="rentals.html">Car Rentals</a></li>
-          <li><a href="booking.html"  class="active">My Bookings</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
+          <nav>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="rentals.html">Car Rentals</a></li>
+              <li><a href="booking.html" class="active">My Bookings</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </nav>
 
-      <div class="header-actions">
-        <div class="search-box">
-          <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-          <input type="text" placeholder="Search products" />
+          <div class="header-actions">
+            <div class="search-box">
+              <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+              <input type="text" placeholder="Search products" />
+            </div>
+            
+            <div class="user-avatar">FA</div>
+            <a href="index.html" class="btn-logout">Logout</a>
+          </div>
+
         </div>
-        <a href="#" class="btn-login">Login</a>
       </div>
+    </header>
 
-    </div>
-  </div>
-</header>
-<!-----------------End of header--------------------->
-<main>
+    <main>
+      <section class="bookings-section">
+        <div class="container">
 
-</main>
- <!---------Footer----------------->
+        
+          <div class="bookings-title-wrap">
+            <h1 class="bookings-title">My Bookings</h1>
+            <p class="bookings-subtitle"><i class="fa-regular fa-bookmark"></i> View and manage your car rental bookings</p>
+          </div>
+
+          
+          <div class="booking-tabs">
+            <button class="booking-tab booking-tab-active">All <span class="tab-count">2</span></button>
+            <button class="booking-tab">Upcoming <span class="tab-count">2</span></button>
+            <button class="booking-tab">Active <span class="tab-count">0</span></button>
+            <button class="booking-tab">Past <span class="tab-count">0</span></button>
+          </div>
+
+          
+          <div class="bookings-list">
+
+            
+            <div class="booking-card">
+              <div class="booking-card-inner">
+
+                
+                <div class="booking-car-img-wrap">
+                  <img src="images/car9.jpg" alt="Toyota Hiace Van" class="booking-car-img" />
+                  <span class="booking-status-badge pending">
+                    <i class="fa-regular fa-clock"></i> Pending
+                  </span>
+                </div>
+
+                
+                <div class="booking-card-body">
+
+                  <div class="booking-car-meta">
+                    <h2 class="booking-car-name">Toyota Hiace Van</h2>
+                    <p class="booking-car-type"><i class="fa-solid fa-car-side"></i> Toyota &bull; Van</p>
+                  </div>
+
+                  
+                  <div class="booking-dates-grid">
+                    <div class="booking-date-box pickup-box">
+                      <p class="date-box-label"><i class="fa-regular fa-calendar-check"></i> Pickup</p>
+                      <p class="date-box-date">Dec 30, 2025</p>
+                      <p class="date-box-time"><i class="fa-regular fa-clock"></i> 02:00</p>
+                      <p class="date-box-location"><i class="fa-solid fa-location-dot"></i> Tarkwa</p>
+                    </div>
+                    <div class="booking-date-box return-box">
+                      <p class="date-box-label"><i class="fa-regular fa-calendar-xmark"></i> Return</p>
+                      <p class="date-box-date">Jan 9, 2026</p>
+                      <p class="date-box-time"><i class="fa-regular fa-clock"></i> 04:00</p>
+                      <p class="date-box-location"><i class="fa-solid fa-location-dot"></i> Tarkwa</p>
+                    </div>
+                  </div>
+
+                
+                  <div class="booking-summary-row">
+                    <div class="booking-summary-item">
+                      <p class="summary-label">Duration</p>
+                      <p class="summary-value">10 days</p>
+                    </div>
+                    <div class="booking-summary-item">
+                      <p class="summary-label">Total Amount</p>
+                      <p class="summary-value summary-price"><i class="fa-solid fa-cedi-sign"></i>2950.00</p>
+                    </div>
+                    <div class="booking-summary-item">
+                      <p class="summary-label"><i class="fa-regular fa-credit-card"></i> Payment Status</p>
+                      <p class="summary-value summary-pending">Pending</p>
+                    </div>
+                  </div>
+
+              
+                  <div class="booking-actions">
+                    <a href="rentals.html" class="btn-view-car">View Car Details <i class="fa-solid fa-arrow-right"></i></a>
+                    <button class="btn-cancel-booking"><i class="fa-solid fa-xmark"></i> Cancel Booking</button>
+                  </div>
+
+              
+                  <div class="booking-reference">
+                    <i class="fa-regular fa-clock"></i> Booking Reference:
+                    <span class="ref-code">BKMJMRJSUSBASK</span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            
+
+            
+            <div class="booking-card">
+              <div class="booking-card-inner">
+
+                
+                <div class="booking-car-img-wrap">
+                  <img src="images/car1.jpg" alt="Car" class="booking-car-img" />
+                  <span class="booking-status-badge pending">
+                    <i class="fa-regular fa-clock"></i> Pending
+                  </span>
+                </div>
+
+            
+                <div class="booking-card-body">
+
+                  <div class="booking-car-meta">
+                    <h2 class="booking-car-name">Car</h2>
+                    <p class="booking-car-type"><i class="fa-solid fa-car-side"></i> Vehicle</p>
+                  </div>
+
+                  
+                  <div class="booking-dates-grid">
+                    <div class="booking-date-box pickup-box">
+                      <p class="date-box-label"><i class="fa-regular fa-calendar-check"></i> Pickup</p>
+                      <p class="date-box-date">Dec 25, 2025</p>
+                      <p class="date-box-time"><i class="fa-regular fa-clock"></i> 10:00</p>
+                      <p class="date-box-location"><i class="fa-solid fa-location-dot"></i> Kumasi</p>
+                    </div>
+                    <div class="booking-date-box return-box">
+                      <p class="date-box-label"><i class="fa-regular fa-calendar-xmark"></i> Return</p>
+                      <p class="date-box-date">Dec 26, 2025</p>
+                      <p class="date-box-time"><i class="fa-regular fa-clock"></i> 00:00</p>
+                      <p class="date-box-location"><i class="fa-solid fa-location-dot"></i> Kumasi</p>
+                    </div>
+                  </div>
+
+                  
+                  <div class="booking-summary-row">
+                    <div class="booking-summary-item">
+                      <p class="summary-label">Duration</p>
+                      <p class="summary-value">1 days</p>
+                    </div>
+                    <div class="booking-summary-item">
+                      <p class="summary-label">Total Amount</p>
+                      <p class="summary-value summary-price"><i class="fa-solid fa-cedi-sign"></i>365.00</p>
+                    </div>
+                    <div class="booking-summary-item">
+                      <p class="summary-label"><i class="fa-regular fa-credit-card"></i> Payment Status</p>
+                      <p class="summary-value summary-pending">Pending</p>
+                    </div>
+                  </div>
+
+                  <!-- Reference -->
+                  <div class="booking-reference">
+                    <i class="fa-regular fa-clock"></i> Booking Reference:
+                    <span class="ref-code">BKMJK1PTASR3AJ</span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          
+
+          </div>
+          
+
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
     <footer>
       <div class="footer-container">
-
         <div class="footer-brand">
           <div class="footer-logo">
             <h1>EQUIS.</h1>
@@ -64,12 +219,11 @@
           </p>
           <p class="footer-phone">0547378375 / 0505602895</p>
           <div class="footer-socials">
-            <a href="www.facebook.com" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="www.twitter.com" class="social-link"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="www.LinkedIn.com" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
           </div>
         </div>
-
         <div class="footer-col">
           <h4>Our Locations</h4>
           <ul>
@@ -79,7 +233,6 @@
             <li>Kumasi</li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h4>Our Services</h4>
           <ul>
@@ -89,7 +242,6 @@
             <li><a href="#">Heavy Duty Equipment</a></li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h4>Quick Links</h4>
           <ul>
@@ -99,18 +251,15 @@
             <li><a href="about.html">Careers</a></li>
           </ul>
         </div>
-
       </div>
-
       <div class="footer-bottom">
-        <p>&copy; 2026 Mashin Centre Ltd. All rights reserved.</p>
+        <p>&copy; 2025 Equis Centre Ltd. All rights reserved.</p>
         <div class="footer-bottom-links">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
         </div>
       </div>
     </footer>
-    <!---------End of Footer----------------->
 
     <script src="js/script.js"></script>
   </body>
