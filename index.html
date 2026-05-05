@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>EQUIS</title>
+    <title>Mashin Centre — Car Rental</title>
 
     <link rel="stylesheet" href="css/style.css" />
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -21,12 +21,14 @@
 <header>
   <div class="container">
     <div class="navbar">
-
-      <div class="logo">
-        <h1>EQUIS.</h1>
-      </div>
-
-      <nav>
+      <a href="index.html" class="logo" aria-label="Mashin Centre home">
+        <span class="logo-mark" aria-hidden="true"><i class="fa-solid fa-car-side"></i></span>
+        <span class="logo-text">Mashin</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav class="main-nav" id="main-nav">
         <ul>
           <li><a href="index.html" class="active">Home</a></li>
           <li><a href="about.html">About</a></li>
@@ -35,15 +37,13 @@
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
-
       <div class="header-actions">
         <div class="search-box">
           <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-          <input type="text" placeholder="Search products" />
+          <input type="search" placeholder="Search products..." aria-label="Search products" />
         </div>
         <a href="login.html" class="btn-login">Login</a>
       </div>
-
     </div>
   </div>
 </header>
@@ -52,12 +52,9 @@
 <!---------Main ----------------->
 <main>
   <section class="hero">
-    <div class="hero-container">
-
-      
+    <div class="container hero-container">
       <div class="hero-content">
-
-        <span class="hero-label">Equis Car Rental Service</span>
+        <span class="hero-label">Mashin Car Rental Service</span>
 
         <h1 class="hero-title">
           Find Your <br />
@@ -90,7 +87,7 @@
             <span class="stat-icon"><i class="fa-solid fa-location-dot"></i></span>
             <div>
               <p class="stat-number">4</p>
-              <p class="stat-label">City Locations</p>
+              <p class="stat-label">Car Locations</p>
             </div>
           </div>
         </div>
@@ -103,7 +100,7 @@
         <div class="hero-badge badge-rating">
           <span class="badge-star"><i class="fa-solid fa-star"></i></span>
           <div>
-            <p class="badge-title">4.4/5 Rating</p>
+            <p class="badge-title">5.0/5 Rating</p>
             <p class="badge-sub">Customer Reviews</p>
           </div>
         </div>
@@ -113,8 +110,8 @@
         <div class="hero-badge badge-price">
           <span class="badge-check"><i class="fa-solid fa-check"></i></span>
           <div>
-            <p class="badge-title">Best Price</p>
-            <p class="badge-sub">Guarantee</p>
+            <p class="badge-title">Best Price Guarantee</p>
+            <p class="badge-sub">On every booking</p>
           </div>
         </div>
 
@@ -125,8 +122,8 @@
 
   
   <section class="booking-section">
-    <div class="booking-container">
-      <p class="booking-label"><i class="fa-solid fa-calendar"></i> Book Your Car Now</p>
+    <div class="container booking-container">
+      <p class="booking-label"><i class="fa-solid fa-car-side"></i> Book Your Car Now</p>
       <div class="booking-form">
 
         <div class="form-group">
@@ -282,7 +279,7 @@
             </div>
             <div class="vehicle-info">
               <h4>Tesla Model 3</h4>
-              <div class="v-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>  <span>(5.0)</span></div>
+              <div class="v-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(5.0)</span></div>
               <div class="v-specs">
                 <span><i class="fa-solid fa-user"></i> 5 Seats</span>
                 <span><i class="fa-solid fa-bolt-lightning"></i> Electric</span>
@@ -458,7 +455,7 @@
 
         <div class="footer-brand">
           <div class="footer-logo">
-            <h1>EQUIS.</h1>
+            <span class="logo-text" style="color:#f9fafb;">Mashin</span>
           </div>
           <p class="footer-desc">
             Your trusted partner for vehicle sales, repair, and assembly services across Ghana. Quality service and customer satisfaction guaranteed.
@@ -467,7 +464,7 @@
           <div class="footer-socials">
             <a href="www.facebook.com" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
             <a href="www.twitter.com" class="social-link"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="www.LinkedIn.com" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://www.instagram.com" class="social-link" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
           </div>
         </div>
 

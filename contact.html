@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>EQUIS</title>
+    <title>Mashin Centre — Contact</title>
 
     <link rel="stylesheet" href="css/style.css" />
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -21,29 +21,30 @@
 <header>
   <div class="container">
     <div class="navbar">
-
-      <div class="logo">
-        <h1>EQUIS.</h1>
-      </div>
-
-      <nav>
+      <a href="index.html" class="logo" aria-label="Mashin Centre home">
+        <span class="logo-mark" aria-hidden="true"><i class="fa-solid fa-car-side"></i></span>
+        <span class="logo-text">Mashin</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav class="main-nav" id="main-nav">
         <ul>
-          <li><a href="index.html" >Home</a></li>
-          <li><a href="about.html" >About</a></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
           <li><a href="rentals.html">Car Rentals</a></li>
           <li><a href="booking.html">My Bookings</a></li>
           <li><a href="contact.html" class="active">Contact</a></li>
         </ul>
       </nav>
-
       <div class="header-actions">
         <div class="search-box">
           <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-          <input type="text" placeholder="Search products" />
+          <input type="search" placeholder="Search products..." aria-label="Search products" />
         </div>
-        <a href="#" class="btn-login">Login</a>
+        <div class="user-avatar" aria-hidden="true">FA</div>
+        <a href="index.html" class="btn-logout">Logout</a>
       </div>
-
     </div>
   </div>
 </header>
@@ -53,7 +54,7 @@
       <section class="contact-hero">
         <div class="container">
           <span class="section-tag">Get In Touch</span>
-          <h1 class="contact-hero-title">Contact <span class="blue">EQUIS</span></h1>
+          <h1 class="contact-hero-title">Contact <span class="blue">Mashin</span></h1>
           <p class="contact-hero-desc">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
         </div>
       </section>
@@ -113,53 +114,47 @@
               <h2>Send us a Message</h2>
               <p class="form-subtitle">Fill out the form below and our team will get back to you within 24 hours.</p>
  
-              <div class="contact-form">
- 
+              <form class="contact-form" id="contact-form" novalidate>
                 <div class="field-group full-width">
-                  <label>Full Name <span class="req">*</span></label>
+                  <label for="cf-name">Full Name <span class="req">*</span></label>
                   <div class="field-input-wrap">
                     <span class="field-icon"><i class="fa-regular fa-user"></i></span>
-                    <input type="text" placeholder="Please enter your full name" />
+                    <input id="cf-name" name="name" type="text" placeholder="Please enter your full name" required />
                   </div>
                 </div>
- 
                 <div class="field-row">
                   <div class="field-group">
-                    <label>Email Address <span class="req">*</span></label>
+                    <label for="cf-email">Email Address <span class="req">*</span></label>
                     <div class="field-input-wrap">
                       <span class="field-icon"><i class="fa-regular fa-envelope"></i></span>
-                      <input type="email" placeholder="Please enter your email" />
+                      <input id="cf-email" name="email" type="email" placeholder="Please enter your email" required />
                     </div>
                   </div>
                   <div class="field-group">
-                    <label>Phone Number</label>
+                    <label for="cf-phone">Phone Number</label>
                     <div class="field-input-wrap">
                       <span class="field-icon"><i class="fa-solid fa-phone"></i></span>
-                      <input type="tel" placeholder="Please enter your phone number" />
+                      <input id="cf-phone" name="phone" type="tel" placeholder="Please enter your phone number" />
                     </div>
                   </div>
                 </div>
- 
                 <div class="field-group full-width">
-                  <label>Subject</label>
+                  <label for="cf-subject">Subject</label>
                   <div class="field-input-wrap">
                     <span class="field-icon"><i class="fa-regular fa-comment"></i></span>
-                    <input type="text" placeholder="How can we help?" />
+                    <input id="cf-subject" name="subject" type="text" placeholder="How can we help?" />
                   </div>
                 </div>
- 
                 <div class="field-group full-width">
-                  <label>Message <span class="req">*</span></label>
+                  <label for="cf-message">Message <span class="req">*</span></label>
                   <div class="field-input-wrap textarea-wrap">
-                    <textarea placeholder="Tell us more about your inquiry..." rows="6"></textarea>
+                    <textarea id="cf-message" name="message" placeholder="Tell us more about your inquiry..." rows="6" required></textarea>
                   </div>
                 </div>
- 
-                <button class="btn-send-message">
+                <button type="submit" class="btn-send-message">
                   <i class="fa-solid fa-paper-plane"></i> Send Message
                 </button>
- 
-              </div>
+              </form>
             </div>
  
             
@@ -252,7 +247,7 @@
 
         <div class="footer-brand">
           <div class="footer-logo">
-            <h1>EQUIS.</h1>
+            <span class="logo-text" style="color:#f9fafb;">Mashin</span>
           </div>
           <p class="footer-desc">
             Your trusted partner for vehicle sales, repair, and assembly services across Ghana. Quality service and customer satisfaction guaranteed.
@@ -261,7 +256,7 @@
           <div class="footer-socials">
             <a href="www.facebook.com" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
             <a href="www.twitter.com" class="social-link"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="www.LinkedIn.com" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://www.instagram.com" class="social-link" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
           </div>
         </div>
 

@@ -7,8 +7,35 @@
     padding:0;
     box-sizing: border-box;
     text-decoration:none;
-    font-family: sans-serif;
 }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #111827;
+}
+
+/* ---- LAYOUT ----- */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.blue,
+.section-header h2 .blue,
+.contact-hero-title .blue {
+  color: #2563eb;
+}
+
+.about-hero-title .hero-year {
+  font-size: 1.25em;
+  color: #2563eb;
+  font-weight: 800;
+}
+
 /* ---- HEADER ----- */
 header {
   background-color: #ffffff;
@@ -18,18 +45,59 @@ header {
   z-index: 1000;
 }
 
-header .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
-  gap: 32px;
+  min-height: 64px;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.logo-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #1e3a5f 0%, #0f172a 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.logo-text {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.nav-toggle:hover {
+  border-color: #2563eb;
+  color: #2563eb;
 }
 
 .logo-img {
@@ -39,7 +107,7 @@ header .container {
 }
 
 
-nav ul {
+.main-nav ul {
   list-style: none;
   display: flex;
   align-items: center;
@@ -48,7 +116,7 @@ nav ul {
   padding: 0;
 }
 
-nav ul li a {
+.main-nav ul li a {
   text-decoration: none;
   color: #374151;
   font-size: 0.9rem;
@@ -57,11 +125,11 @@ nav ul li a {
   white-space: nowrap;
 }
 
-nav ul li a:hover {
+.main-nav ul li a:hover {
   color: #2563eb;
 }
 
-nav ul li a.active {
+.main-nav ul li a.active {
   color: #2563eb;
   border-bottom: 2px solid #2563eb;
   padding-bottom: 2px;
@@ -126,9 +194,6 @@ nav ul li a.active {
 }
 
 .hero-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -282,8 +347,8 @@ nav ul li a.active {
 
 .booking-container {
   max-width: 900px;
-  margin: 0 auto;
-  padding: 0 24px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .booking-label {
@@ -438,8 +503,16 @@ nav ul li a.active {
 }
  
 .feature-icon {
-  font-size: 1.8rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #dbeafe;
+  color: #2563eb;
+  font-size: 1.25rem;
   margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
  
 .feature-card h4 {
@@ -2124,27 +2197,28 @@ nav ul li a.active {
  
 .rental-card .btn-book {
   padding: 7px 13px;
-  background: #2563eb;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  border: none;
   border-radius: 8px;
   font-size: 0.75rem;
   font-weight: 600;
   color: #ffffff;
   text-decoration: none;
-  transition: background-color 0.2s;
+  transition: opacity 0.2s, transform 0.1s;
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
 }
- 
+
 .rental-card .btn-book:hover {
-  background-color: #1d4ed8;
+  opacity: 0.92;
+  transform: translateY(-1px);
 }
 /* =============================================
-   booking.css — Styles for booking.html
+   My Bookings page
    ============================================= */
 
-/* ---------- PAGE BACKGROUND ---------- */
-body {
+body.page-bookings {
   background-color: #f0f4f8;
 }
 
@@ -2281,7 +2355,8 @@ body {
 .booking-status-badge {
   position: absolute;
   top: 12px;
-  left: 12px;
+  right: 12px;
+  left: auto;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -2442,7 +2517,7 @@ body {
 .summary-price {
   font-size: 1.15rem;
   font-weight: 800;
-  color: #2563eb;
+  color: #5b21b6;
 }
 
 .summary-pending {
@@ -2544,8 +2619,12 @@ body.modal-open {
 
 
 .page-backdrop {
-  min-height: 300px;
-  background: #e5e7eb;
+  min-height: 45vh;
+  background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 45%, #e2e8f0 100%);
+}
+
+.page-login .page-backdrop {
+  min-height: 120px;
 }
 
 
@@ -2916,5 +2995,403 @@ footer {
 
 .footer-bottom-links a:hover {
   color: #2563eb;
+}
+
+/* ========== RESPONSIVE — ALL BREAKPOINTS ========== */
+
+@media (max-width: 1200px) {
+  .vehicles-grid,
+  .rentals-cars-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-container {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 992px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(300px, 88vw);
+    background: #ffffff;
+    padding: 72px 24px 28px;
+    box-shadow: -8px 0 32px rgba(15, 23, 42, 0.12);
+    transform: translateX(100%);
+    transition: transform 0.28s ease;
+    z-index: 1100;
+    overflow-y: auto;
+  }
+
+  .main-nav.nav-open {
+    transform: translateX(0);
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .main-nav ul li {
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .main-nav ul li a {
+    display: block;
+    padding: 14px 4px;
+  }
+
+  body.nav-open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.4);
+    z-index: 1050;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .header-actions .search-box {
+    order: 3;
+    flex: 1 1 100%;
+    max-width: none;
+  }
+
+  .search-box input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .hero-image-wrap {
+    order: -1;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .hero-desc {
+    max-width: none;
+  }
+
+  .hero-stats {
+    justify-content: center;
+  }
+
+  .hero-title {
+    font-size: 2.25rem;
+  }
+
+  .booking-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-divider {
+    display: none;
+  }
+
+  .form-group {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .btn-search {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .who-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .about-stats-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mvg-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .info-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .faq-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .rentals-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .filters-sidebar {
+    position: static;
+    max-height: 0;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
+  }
+
+  .filters-sidebar.filters-open {
+    max-height: 2000px;
+    opacity: 1;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    margin-bottom: 16px;
+  }
+
+  .filters-toggle-wrap {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+  }
+
+  .btn-filters-sidebar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .btn-filters-sidebar:hover {
+    background: #1d4ed8;
+  }
+
+  .rentals-search-bar {
+    flex-wrap: wrap;
+  }
+
+  .rsb-divider {
+    display: none;
+  }
+
+  .rentals-search-bar .btn-filters {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .results-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .booking-card-inner {
+    flex-direction: column;
+  }
+
+  .booking-car-img-wrap {
+    width: 100%;
+    min-height: 200px;
+    max-height: 240px;
+  }
+
+  .booking-dates-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-summary-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .booking-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-view-car,
+  .btn-cancel-booking {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .journey-box {
+    padding: 28px 22px;
+  }
+
+  .cta-banner {
+    padding: 40px 24px;
+  }
+
+  .cta-banner h2 {
+    font-size: 1.5rem;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+
+  .testimonial-card {
+    padding: 28px 22px;
+  }
+
+  .testimonial-nav {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 993px) {
+  .filters-toggle-wrap {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .hero {
+    padding: 48px 0 40px;
+  }
+
+  .hero-title {
+    font-size: 1.95rem;
+  }
+
+  .about-hero-title,
+  .rentals-hero-title,
+  .contact-hero-title {
+    font-size: 2rem;
+  }
+
+  .vehicles-grid,
+  .rentals-cars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid,
+  .about-stats-box {
+    grid-template-columns: 1fr;
+  }
+
+  .info-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .footer-bottom-links {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .modal {
+    padding: 32px 24px 28px;
+    max-width: 100%;
+  }
+
+  .badge-rating {
+    left: 8px;
+    top: 12px;
+  }
+
+  .badge-price {
+    right: 8px;
+    bottom: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-stats {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .stat-item {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .booking-tabs {
+    flex-direction: column;
+  }
+
+  .booking-tab {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .header-actions .btn-login,
+  .header-actions .btn-logout {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.7rem;
+  }
 }
 

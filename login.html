@@ -3,25 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EQUIS - Login</title>
+    <title>Mashin Centre — Sign In</title>
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/login.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   </head>
-  <body id="top">
-
+  <body id="top" class="page-login">
     <div class="top-arrow">
       <a href="#top"><i class="fa-solid fa-arrow-up"></i></a>
     </div>
 
-    <!-- Header -->
     <header>
       <div class="container">
         <div class="navbar">
-          <div class="logo">
-            <h1>EQUIS.</h1>
-          </div>
-          <nav>
+          <a href="index.html" class="logo" aria-label="Mashin Centre home">
+            <span class="logo-mark" aria-hidden="true"><i class="fa-solid fa-car-side"></i></span>
+            <span class="logo-text">Mashin</span>
+          </a>
+          <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <nav class="main-nav" id="main-nav">
             <ul>
               <li><a href="index.html">Home</a></li>
               <li><a href="about.html">About</a></li>
@@ -33,7 +34,7 @@
           <div class="header-actions">
             <div class="search-box">
               <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-              <input type="text" placeholder="Search products" />
+              <input type="search" placeholder="Search products..." aria-label="Search products" />
             </div>
             <a href="#" class="btn-login" id="open-login-btn">Login</a>
           </div>
@@ -41,19 +42,15 @@
       </div>
     </header>
 
-    <!-- ===== MODAL OVERLAY ===== -->
     <div class="modal-overlay" id="modal-overlay">
-
-      <!-- ===== LOGIN MODAL ===== -->
       <div class="modal" id="login-modal">
-        <button class="modal-close" id="close-login">&times;</button>
+        <button type="button" class="modal-close" id="close-login" aria-label="Close">&times;</button>
         <div class="modal-header">
           <h2 class="modal-title">Welcome Back</h2>
           <p class="modal-subtitle">Sign in to your account</p>
         </div>
 
-        <form class="modal-form" id="login-form" onsubmit="handleLogin(event)">
-
+        <form class="modal-form" id="login-form" novalidate>
           <div class="form-field">
             <label class="form-field-label" for="login-email">Email Address</label>
             <div class="form-input-wrap">
@@ -62,7 +59,7 @@
                 id="login-email"
                 class="form-input"
                 placeholder="you@example.com"
-                value="francismarkamos71@gmail.com"
+                autocomplete="email"
                 required
               />
             </div>
@@ -76,10 +73,10 @@
                 id="login-password"
                 class="form-input"
                 placeholder="Enter your password"
-                value="••••••••••"
+                autocomplete="current-password"
                 required
               />
-              <button type="button" class="toggle-pw" onclick="togglePassword('login-password', this)">
+              <button type="button" class="toggle-pw" aria-label="Show or hide password" data-pw-target="login-password">
                 <i class="fa-regular fa-eye-slash"></i>
               </button>
             </div>
@@ -87,7 +84,7 @@
 
           <div class="form-row">
             <label class="remember-label">
-              <input type="checkbox" class="remember-checkbox" /> Remember me
+              <input type="checkbox" class="remember-checkbox" name="remember" /> Remember me
             </label>
             <a href="#" class="forgot-link">Forgot password?</a>
           </div>
@@ -98,30 +95,21 @@
             Don't have an account?
             <a href="#" class="modal-switch-link" id="go-to-register">Sign Up</a>
           </p>
-
         </form>
       </div>
 
-      <!-- ===== REGISTER MODAL ===== -->
       <div class="modal modal-hidden" id="register-modal">
-        <button class="modal-close" id="close-register">&times;</button>
+        <button type="button" class="modal-close" id="close-register" aria-label="Close">&times;</button>
         <div class="modal-header">
           <h2 class="modal-title">Create Account</h2>
           <p class="modal-subtitle">Join us today</p>
         </div>
 
-        <form class="modal-form" id="register-form" onsubmit="handleRegister(event)">
-
+        <form class="modal-form" id="register-form" novalidate>
           <div class="form-field">
             <label class="form-field-label" for="reg-name">Full Name</label>
             <div class="form-input-wrap">
-              <input
-                type="text"
-                id="reg-name"
-                class="form-input"
-                placeholder="John Doe"
-                required
-              />
+              <input type="text" id="reg-name" class="form-input" placeholder="John Doe" autocomplete="name" required />
             </div>
           </div>
 
@@ -133,6 +121,7 @@
                 id="reg-email"
                 class="form-input"
                 placeholder="you@example.com"
+                autocomplete="email"
                 required
               />
             </div>
@@ -146,9 +135,10 @@
                 id="reg-password"
                 class="form-input"
                 placeholder="Create a password"
+                autocomplete="new-password"
                 required
               />
-              <button type="button" class="toggle-pw" onclick="togglePassword('reg-password', this)">
+              <button type="button" class="toggle-pw" aria-label="Show or hide password" data-pw-target="reg-password">
                 <i class="fa-regular fa-eye-slash"></i>
               </button>
             </div>
@@ -162,9 +152,10 @@
                 id="reg-confirm"
                 class="form-input"
                 placeholder="Confirm your password"
+                autocomplete="new-password"
                 required
               />
-              <button type="button" class="toggle-pw" onclick="togglePassword('reg-confirm', this)">
+              <button type="button" class="toggle-pw" aria-label="Show or hide password" data-pw-target="reg-confirm">
                 <i class="fa-regular fa-eye-slash"></i>
               </button>
             </div>
@@ -176,24 +167,17 @@
             Already have an account?
             <a href="#" class="modal-switch-link" id="go-to-login">Sign In</a>
           </p>
-
         </form>
       </div>
-
     </div>
-    <!-- End Modal Overlay -->
 
-    <!-- Page backdrop content (blurred hero) -->
-    <main class="page-backdrop">
-      <!-- intentionally left as blurred bg -->
-    </main>
+    <main class="page-backdrop" aria-hidden="true"></main>
 
-    <!-- Footer -->
     <footer>
       <div class="footer-container">
         <div class="footer-brand">
           <div class="footer-logo">
-            <h1>EQUIS.</h1>
+            <span class="logo-text" style="color:#f9fafb;">Mashin</span>
           </div>
           <p class="footer-desc">
             Your trusted partner for vehicle sales, repair, and assembly services across Ghana. Quality service and customer satisfaction guaranteed.
@@ -242,8 +226,6 @@
       </div>
     </footer>
 
-   
-      
-
+    <script src="js/script.js"></script>
   </body>
 </html>

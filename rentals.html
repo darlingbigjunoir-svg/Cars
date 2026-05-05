@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>EQUIS</title>
+    <title>Mashin Centre — Car Rentals</title>
 
     <link rel="stylesheet" href="css/style.css" />
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -21,29 +21,29 @@
 <header>
   <div class="container">
     <div class="navbar">
-
-      <div class="logo">
-        <h1>EQUIS.</h1>
-      </div>
-
-      <nav>
+      <a href="index.html" class="logo" aria-label="Mashin Centre home">
+        <span class="logo-mark" aria-hidden="true"><i class="fa-solid fa-car-side"></i></span>
+        <span class="logo-text">Mashin</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav class="main-nav" id="main-nav">
         <ul>
-          <li><a href="index.html" >Home</a></li>
-          <li><a href="about.html" >About</a></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
           <li><a href="rentals.html" class="active">Car Rentals</a></li>
           <li><a href="booking.html">My Bookings</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
-
       <div class="header-actions">
         <div class="search-box">
           <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-          <input type="text" placeholder="Search products" />
+          <input type="search" placeholder="Search products..." aria-label="Search products" />
         </div>
-        <a href="#" class="btn-login">Login</a>
+        <a href="login.html" class="btn-login">Login</a>
       </div>
-
     </div>
   </div>
 </header>
@@ -55,7 +55,7 @@
           <span class="section-tag">Our Fleet</span>
           <h1 class="rentals-hero-title">Find Your Perfect <br /><span class="rentals-title-blue">Rental Car</span></h1>
           <p class="rentals-hero-desc">Browse our premium collection of vehicles and find the perfect ride for your journey.</p>
-        
+        </div>
       </section>
  
     
@@ -92,10 +92,13 @@
       
       <section class="rentals-main-section">
         <div class="container">
+          <div class="filters-toggle-wrap">
+            <button type="button" class="btn-filters-sidebar" id="toggle-rentals-filters">
+              <i class="fa-solid fa-sliders"></i> Filters
+            </button>
+          </div>
           <div class="rentals-layout">
- 
-            
-            <aside class="filters-sidebar">
+            <aside class="filters-sidebar" id="rentals-filters">
               <div class="filters-header">
                 <h3>Filters</h3>
                 <a href="#" class="clear-all">Clear All</a>
@@ -465,7 +468,6 @@
  
           </div>
         </div>
-        </div>
       </section>
  
 </main>
@@ -475,7 +477,7 @@
 
         <div class="footer-brand">
           <div class="footer-logo">
-            <h1>EQUIS.</h1>
+            <span class="logo-text" style="color:#f9fafb;">Mashin</span>
           </div>
           <p class="footer-desc">
             Your trusted partner for vehicle sales, repair, and assembly services across Ghana. Quality service and customer satisfaction guaranteed.
@@ -484,7 +486,7 @@
           <div class="footer-socials">
             <a href="www.facebook.com" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
             <a href="www.twitter.com" class="social-link"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="www.LinkedIn.com" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://www.instagram.com" class="social-link" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
           </div>
         </div>
 

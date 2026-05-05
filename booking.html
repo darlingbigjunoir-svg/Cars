@@ -3,12 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EQUIS - My Bookings</title>
+    <title>Mashin Centre — My Bookings</title>
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/booking.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   </head>
-  <body id="top">
+  <body id="top" class="page-bookings">
 
     <div class="top-arrow">
       <a href="#top"><i class="fa-solid fa-arrow-up"></i></a>
@@ -18,12 +17,14 @@
     <header>
       <div class="container">
         <div class="navbar">
-
-          <div class="logo">
-            <img src="images/logo.png" alt="EQUIS" class="logo-img" />
-          </div>
-
-          <nav>
+          <a href="index.html" class="logo" aria-label="Mashin Centre home">
+            <span class="logo-mark" aria-hidden="true"><i class="fa-solid fa-car-side"></i></span>
+            <span class="logo-text">Mashin</span>
+          </a>
+          <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <nav class="main-nav" id="main-nav">
             <ul>
               <li><a href="index.html">Home</a></li>
               <li><a href="about.html">About</a></li>
@@ -32,17 +33,14 @@
               <li><a href="contact.html">Contact</a></li>
             </ul>
           </nav>
-
           <div class="header-actions">
             <div class="search-box">
               <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-              <input type="text" placeholder="Search products" />
+              <input type="search" placeholder="Search products..." aria-label="Search products" />
             </div>
-            
-            <div class="user-avatar">FA</div>
+            <div class="user-avatar" aria-hidden="true">FA</div>
             <a href="index.html" class="btn-logout">Logout</a>
           </div>
-
         </div>
       </div>
     </header>
@@ -54,7 +52,7 @@
         
           <div class="bookings-title-wrap">
             <h1 class="bookings-title">My Bookings</h1>
-            <p class="bookings-subtitle"><i class="fa-regular fa-bookmark"></i> View and manage your car rental bookings</p>
+            <p class="bookings-subtitle"><i class="fa-solid fa-filter"></i> View and manage your car rental bookings</p>
           </div>
 
           
@@ -129,7 +127,7 @@
               
                   <div class="booking-reference">
                     <i class="fa-regular fa-clock"></i> Booking Reference:
-                    <span class="ref-code">BKMJMRJSUSBASK</span>
+                    <span class="ref-code">BKMMRMJSUSBASK</span>
                   </div>
 
                 </div>
@@ -189,7 +187,11 @@
                     </div>
                   </div>
 
-                  <!-- Reference -->
+                  <div class="booking-actions">
+                    <a href="rentals.html" class="btn-view-car">View Car Details <i class="fa-solid fa-arrow-right"></i></a>
+                    <button type="button" class="btn-cancel-booking"><i class="fa-solid fa-xmark"></i> Cancel Booking</button>
+                  </div>
+
                   <div class="booking-reference">
                     <i class="fa-regular fa-clock"></i> Booking Reference:
                     <span class="ref-code">BKMJK1PTASR3AJ</span>
@@ -212,7 +214,7 @@
       <div class="footer-container">
         <div class="footer-brand">
           <div class="footer-logo">
-            <h1>EQUIS.</h1>
+            <span class="logo-text" style="color:#f9fafb;">Mashin</span>
           </div>
           <p class="footer-desc">
             Your trusted partner for vehicle sales, repair, and assembly services across Ghana. Quality service and customer satisfaction guaranteed.
@@ -253,7 +255,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2025 Equis Centre Ltd. All rights reserved.</p>
+        <p>&copy; 2026 Mashin Centre Ltd. All rights reserved.</p>
         <div class="footer-bottom-links">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
