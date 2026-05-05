@@ -112,3 +112,134 @@ nav ul li a.active {
 .btn-login:hover {
   background-color: #1d4ed8;
 }
+
+
+
+
+/* -------------FOOTER STYLES------------ */
+
+footer {
+  background-color: #111827;
+  color: #d1d5db;
+  padding-top: 60px;
+}
+
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+
+.footer-logo-img {
+  height: 40px;
+  width: auto;
+  margin-bottom: 16px;
+  /* If logo is dark, make it visible on dark bg */
+  filter: brightness(0) invert(1);
+}
+
+.footer-desc {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #9ca3af;
+  margin-bottom: 12px;
+  max-width: 280px;
+}
+
+.footer-phone {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+
+.footer-socials {
+  display: flex;
+  gap: 10px;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #1f2937;
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.social-link:hover {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+
+.footer-col h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f9fafb;
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-col ul li a {
+  text-decoration: none;
+  color: #9ca3af;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+}
+
+.footer-col ul li a:hover {
+  color: #2563eb;
+}
+
+
+.footer-bottom {
+  border-top: 1px solid #1f2937;
+  max-width: 100%;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-bottom p {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-bottom-links a {
+  text-decoration: none;
+  color: #6b7280;
+  font-size: 0.8rem;
+  transition: color 0.2s ease;
+}
+
+.footer-bottom-links a:hover {
+  color: #2563eb;
+}
+
