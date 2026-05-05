@@ -49,7 +49,424 @@
 </header>
 <!-----------------End of header--------------------->
 <main>
-
+<!-- Rentals Hero -->
+      <section class="rentals-hero">
+        <div class="container">
+          <span class="section-tag">Our Fleet</span>
+          <h1 class="rentals-hero-title">Find Your Perfect <br /><span class="rentals-title-blue">Rental Car</span></h1>
+          <p class="rentals-hero-desc">Browse our premium collection of vehicles and find the perfect ride for your journey.</p>
+        </div>
+      </section>
+ 
+    
+      <section class="rentals-search-section">
+        <div class="container">
+          <div class="rentals-search-bar">
+            <div class="rsb-group">
+              <span class="rsb-icon"><i class="fa-solid fa-location-dot"></i></span>
+              <select class="rsb-select">
+                <option value="">All Locations</option>
+                <option value="accra">Accra</option>
+                <option value="kumasi">Kumasi</option>
+                <option value="takoradi">Takoradi</option>
+                <option value="tarkwa">Tarkwa</option>
+              </select>
+            </div>
+            <div class="rsb-divider"></div>
+            <div class="rsb-group">
+              <span class="rsb-icon"><i class="fa-regular fa-calendar"></i></span>
+              <input type="date" class="rsb-input" placeholder="mm/dd/yyyy" />
+            </div>
+            <div class="rsb-divider"></div>
+            <div class="rsb-group">
+              <span class="rsb-icon"><i class="fa-regular fa-calendar"></i></span>
+              <input type="date" class="rsb-input" placeholder="mm/dd/yyyy" />
+            </div>
+            <button class="btn-filters">
+              <i class="fa-solid fa-sliders"></i> Filters
+            </button>
+          </div>
+        </div>
+      </section>
+ 
+      
+      <section class="rentals-main-section">
+        <div class="container">
+          <div class="rentals-layout">
+ 
+            
+            <aside class="filters-sidebar">
+              <div class="filters-header">
+                <h3>Filters</h3>
+                <a href="#" class="clear-all">Clear All</a>
+              </div>
+ 
+              
+              <div class="filter-group">
+                <label class="filter-label">Search</label>
+                <div class="filter-search-wrap">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input type="text" placeholder="Search cars..." class="filter-search-input" />
+                </div>
+              </div>
+ 
+              
+              <div class="filter-group">
+                <label class="filter-label">Category</label>
+                <div class="filter-options">
+                  <label class="filter-radio"><input type="radio" name="category" value="sedan" /> Sedan</label>
+                  <label class="filter-radio"><input type="radio" name="category" value="suv" /> SUV</label>
+                  <label class="filter-radio"><input type="radio" name="category" value="luxury" /> Luxury</label>
+                  <label class="filter-radio"><input type="radio" name="category" value="economy" /> Economy</label>
+                  <label class="filter-radio"><input type="radio" name="category" value="sports" /> Sports</label>
+                  <label class="filter-radio"><input type="radio" name="category" value="van" /> Van</label>
+                </div>
+              </div>
+ 
+              
+              <div class="filter-group">
+                <label class="filter-label">Price Range (per day)</label>
+                <div class="price-range-inputs">
+                  <input type="number" placeholder="Min" class="price-input" />
+                  <span class="price-dash">Max</span>
+                  <input type="number" placeholder="Max" class="price-input" />
+                </div>
+              </div>
+ 
+          
+              <div class="filter-group">
+                <label class="filter-label">Brand</label>
+                <select class="filter-select">
+                  <option>All Brands</option>
+                  <option>Mercedes-Benz</option>
+                  <option>Honda</option>
+                  <option>Tesla</option>
+                  <option>Toyota</option>
+                  <option>Ford</option>
+                  <option>BMW</option>
+                  <option>Nissan</option>
+                </select>
+              </div>
+ 
+              
+              <div class="filter-group">
+                <label class="filter-label">Transmission</label>
+                <div class="filter-options">
+                  <label class="filter-radio"><input type="radio" name="transmission" value="automatic" /> Automatic</label>
+                  <label class="filter-radio"><input type="radio" name="transmission" value="manual" /> Manual</label>
+                </div>
+              </div>
+ 
+              
+              <div class="filter-group">
+                <label class="filter-label">Fuel Type</label>
+                <div class="filter-options">
+                  <label class="filter-radio"><input type="radio" name="fuel" value="petrol" /> Petrol</label>
+                  <label class="filter-radio"><input type="radio" name="fuel" value="diesel" /> Diesel</label>
+                  <label class="filter-radio"><input type="radio" name="fuel" value="electric" /> Electric</label>
+                  <label class="filter-radio"><input type="radio" name="fuel" value="hybrid" /> Hybrid</label>
+                </div>
+              </div>
+ 
+          
+              <div class="filter-group">
+                <label class="filter-label">Seats</label>
+                <div class="filter-options">
+                  <label class="filter-radio"><input type="radio" name="seats" value="2" /> 2</label>
+                  <label class="filter-radio"><input type="radio" name="seats" value="4" /> 4</label>
+                  <label class="filter-radio"><input type="radio" name="seats" value="5" /> 5</label>
+                  <label class="filter-radio"><input type="radio" name="seats" value="7+" /> 7+</label>
+                </div>
+              </div>
+            </aside>
+ 
+            <!-- Cars Grid -->
+            <div class="rentals-grid-area">
+ 
+              <!-- Results Header -->
+              <div class="results-header">
+                <p class="results-count">8 cars found</p>
+                <div class="results-controls">
+                  <select class="sort-select">
+                    <option>Featured</option>
+                    <option>Price: Low to High</option>
+                    <option>Price: High to Low</option>
+                    <option>Rating</option>
+                  </select>
+                  <button class="view-btn view-btn-active" title="Grid view"><i class="fa-solid fa-grip"></i></button>
+                  <button class="view-btn" title="List view"><i class="fa-solid fa-list"></i></button>
+                </div>
+              </div>
+ 
+              
+              <div class="rentals-cars-grid">
+ 
+                
+                <div class="rental-card">
+                  <div class="rental-img-wrap">
+                    <span class="v-tag luxury">luxury</span>
+                    <span class="avail-tag"> Available</span>
+                    <img src="images/car1.jpg" alt="Mercedes-Benz C-Class" />
+                  </div>
+                  <div class="rental-info">
+                    <h4>Mercedes-Benz C-Class</h4>
+                    <div class="r-rating">
+                      <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                      <span>(4.8)</span>
+                    </div>
+                    <div class="r-specs">
+                      <span><i class="fa-solid fa-gears"></i> automatic</span>
+                      <span><i class="fa-solid fa-gas-pump"></i> petrol</span>
+                      <span><i class="fa-solid fa-user"></i> 5 Seats</span>
+                      <span><i class="fa-solid fa-location-dot"></i> Kumasi</span>
+                    </div>
+                    <div class="r-footer">
+                      <div>
+                        <p class="r-price-label">Price per day</p>
+                        <p class="r-price"><i class="fa-solid fa-cedi-sign"></i>350</p>
+                      </div>
+                      <div class="r-actions">
+                        <a href="booking.html" class="btn-details">Details</a>
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+ 
+                
+                <div class="rental-card">
+                  <div class="rental-img-wrap">
+                    <span class="v-tag suv">suv</span>
+                    <span class="avail-tag"> Available</span>
+                    <img src="images/car5.jpg" alt="Honda CR-V 2023" />
+                  </div>
+                  <div class="rental-info">
+                    <h4>Honda CR-V 2023</h4>
+                    <div class="r-rating">
+                      <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                      <span>(4.8)</span>
+                    </div>
+                    <div class="r-specs">
+                      <span><i class="fa-solid fa-gears"></i> automatic</span>
+                      <span><i class="fa-solid fa-gas-pump"></i> petrol</span>
+                      <span><i class="fa-solid fa-user"></i> 7 Seats</span>
+                      <span><i class="fa-solid fa-location-dot"></i> Accra</span>
+                    </div>
+                    <div class="r-footer">
+                      <div>
+                        <p class="r-price-label">Price per day</p>
+                        <p class="r-price"><i class="fa-solid fa-cedi-sign"></i>200</p>
+                      </div>
+                      <div class="r-actions">
+                        <a href="booking.html" class="btn-details">Details</a>
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+ 
+                
+                <div class="rental-card">
+                  <div class="rental-img-wrap">
+                    <span class="v-tag electric">electric</span>
+                    <span class="avail-tag"> Available</span>
+                    <img src="images/car6.jpg" alt="Tesla Model 3" />
+                  </div>
+                  <div class="rental-info">
+                    <h4>Tesla Model 3</h4>
+                    <div class="r-rating">
+                      <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                      <span>(4.8)</span>
+                    </div>
+                    <div class="r-specs">
+                      <span><i class="fa-solid fa-gears"></i> automatic</span>
+                      <span><i class="fa-solid fa-bolt"></i> electric</span>
+                      <span><i class="fa-solid fa-user"></i> 5 Seats</span>
+                      <span><i class="fa-solid fa-location-dot"></i> Takoradi</span>
+                    </div>
+                    <div class="r-footer">
+                      <div>
+                        <p class="r-price-label">Price per day</p>
+                        <p class="r-price"><i class="fa-solid fa-cedi-sign"></i>300</p>
+                      </div>
+                      <div class="r-actions">
+                        <a href="booking.html" class="btn-details">Details</a>
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+ 
+                
+                <div class="rental-card">
+                  <div class="rental-img-wrap">
+                    <span class="v-tag sedan">sedan</span>
+                    <span class="avail-tag"> Available</span>
+                    <img src="images/car7.jpg" alt="Toyota Camry 2023" />
+                  </div>
+                  <div class="rental-info">
+                    <h4>Toyota Camry 2023</h4>
+                    <div class="r-rating">
+                      <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                      <span>(4.8)</span>
+                    </div>
+                    <div class="r-specs">
+                      <span><i class="fa-solid fa-gears"></i> automatic</span>
+                      <span><i class="fa-solid fa-gas-pump"></i> petrol</span>
+                      <span><i class="fa-solid fa-user"></i> 5 Seats</span>
+                      <span><i class="fa-solid fa-location-dot"></i> Accra</span>
+                    </div>
+                    <div class="r-footer">
+                      <div>
+                        <p class="r-price-label">Price per day</p>
+                        <p class="r-price"><i class="fa-solid fa-cedi-sign"></i>150</p>
+                      </div>
+                      <div class="r-actions">
+                        <a href="booking.html" class="btn-details">Details</a>
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+ 
+                
+                <div class="rental-card">
+                  <div class="rental-img-wrap">
+                    <span class="v-tag sports">sports</span>
+                    <span class="avail-tag"> Available</span>
+                    <img src="images/car8.jpg" alt="Ford Mustang GT" />
+                  </div>
+                  <div class="rental-info">
+                    <h4>Ford Mustang GT</h4>
+                    <div class="r-rating">
+                      <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                      <span>(4.8)</span>
+                    </div>
+                    <div class="r-specs">
+                      <span><i class="fa-solid fa-gears"></i> manual</span>
+                      <span><i class="fa-solid fa-gas-pump"></i> petrol</span>
+                      <span><i class="fa-solid fa-user"></i> 4 Seats</span>
+                      <span><i class="fa-solid fa-location-dot"></i> Accra</span>
+                    </div>
+                    <div class="r-footer">
+                      <div>
+                        <p class="r-price-label">Price per day</p>
+                        <p class="r-price"><i class="fa-solid fa-cedi-sign"></i>400</p>
+                      </div>
+                      <div class="r-actions">
+                        <a href="booking.html" class="btn-details">Details</a>
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+ 
+              
+                <div class="rental-card">
+                  <div class="rental-img-wrap">
+                    <span class="v-tag van">van</span>
+                    <span class="avail-tag">Available</span>
+                    <img src="images/car9.jpg" alt="Toyota Hiace Van" />
+                  </div>
+                  <div class="rental-info">
+                    <h4>Toyota Hiace Van</h4>
+                    <div class="r-rating">
+                      <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                      <span>(4.8)</span>
+                    </div>
+                    <div class="r-specs">
+                      <span><i class="fa-solid fa-gears"></i> automatic</span>
+                      <span><i class="fa-solid fa-gas-pump"></i> diesel</span>
+                      <span><i class="fa-solid fa-user"></i> 12 Seats</span>
+                      <span><i class="fa-solid fa-location-dot"></i> Tarkwa</span>
+                    </div>
+                    <div class="r-footer">
+                      <div>
+                        <p class="r-price-label">Price per day</p>
+                        <p class="r-price"><i class="fa-solid fa-cedi-sign"></i>250</p>
+                      </div>
+                      <div class="r-actions">
+                        <a href="booking.html" class="btn-details">Details</a>
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+ 
+                
+                <div class="rental-card">
+                  <div class="rental-img-wrap">
+                    <span class="v-tag luxury">luxury</span>
+                    <span class="avail-tag">  Available</span>
+                    <img src="images/car10.jpg" alt="BMW X5" />
+                  </div>
+                  <div class="rental-info">
+                    <h4>BMW X5</h4>
+                    <div class="r-rating">
+                      <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                      <span>(4.8)</span>
+                    </div>
+                    <div class="r-specs">
+                      <span><i class="fa-solid fa-gears"></i> automatic</span>
+                      <span><i class="fa-solid fa-leaf"></i> hybrid</span>
+                      <span><i class="fa-solid fa-user"></i> 7 Seats</span>
+                      <span><i class="fa-solid fa-location-dot"></i> Accra</span>
+                    </div>
+                    <div class="r-footer">
+                      <div>
+                        <p class="r-price-label">Price per day</p>
+                        <p class="r-price"><i class="fa-solid fa-cedi-sign"></i>450</p>
+                      </div>
+                      <div class="r-actions">
+                        <a href="booking.html" class="btn-details">Details</a>
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+ 
+                
+                <div class="rental-card">
+                  <div class="rental-img-wrap">
+                    <span class="v-tag sedan">sedan</span>
+                    <span class="avail-tag">Available</span>
+                    <img src="images/car11.jpg" alt="Nissan Altima 2023" />
+                  </div>
+                  <div class="rental-info">
+                    <h4>Nissan Altima 2023</h4>
+                    <div class="r-rating">
+                      <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                      <span>(4.8)</span>
+                    </div>
+                    <div class="r-specs">
+                      <span><i class="fa-solid fa-gears"></i> automatic</span>
+                      <span><i class="fa-solid fa-gas-pump"></i> petrol</span>
+                      <span><i class="fa-solid fa-user"></i> 5 Seats</span>
+                      <span><i class="fa-solid fa-location-dot"></i> Kumasi</span>
+                    </div>
+                    <div class="r-footer">
+                      <div>
+                        <p class="r-price-label">Price per day</p>
+                        <p class="r-price"><i class="fa-solid fa-cedi-sign"></i>140</p>
+                      </div>
+                      <div class="r-actions">
+                        <a href="booking.html" class="btn-details">Details</a>
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+ 
+              </div>
+              
+ 
+            </div>
+            
+ 
+          </div>
+        </div>
+      </section>
+ 
 </main>
  <!---------Footer----------------->
     <footer>
