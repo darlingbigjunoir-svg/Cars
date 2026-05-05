@@ -275,10 +275,6 @@ nav ul li a.active {
   color: #9ca3af;
 }
 
-/* ===========================
-   BOOKING FORM SECTION
-   =========================== */
-
 .booking-section {
   background: #ffffff;
   padding: 0 0 60px;
@@ -385,9 +381,6 @@ nav ul li a.active {
 }
 
  
-/* ===========================
-   WHY CHOOSE US / FEATURES
-   =========================== */
 .features-section {
   background: #f8fafc;
   padding: 80px 0;
@@ -462,9 +455,7 @@ nav ul li a.active {
   line-height: 1.7;
 }
  
-/* ===========================
-   FEATURED VEHICLES
-   =========================== */
+
 .vehicles-section {
   background: #ffffff;
   padding: 80px 0;
@@ -653,7 +644,7 @@ nav ul li a.active {
   background-color: #1d4ed8;
 }
  
-/* View All */
+
 .view-all-wrap {
   text-align: center;
 }
@@ -796,7 +787,7 @@ nav ul li a.active {
   color: #9ca3af;
 }
 
-about-hero {
+.about-hero {
   background: linear-gradient(135deg, #eef2ff 0%, #f0f7ff 50%, #e8f4fd 100%);
   padding: 72px 0 60px;
   text-align: center;
@@ -831,9 +822,7 @@ about-hero {
   margin: 0 auto;
 }
  
-/* ===========================
-   WHO WE ARE
-   =========================== */
+
 .who-section {
   background: #ffffff;
   padding: 72px 0;
@@ -878,9 +867,7 @@ about-hero {
   margin-bottom: 0;
 }
  
-/* ===========================
-   ABOUT SERVICES SECTION
-   =========================== */
+
 .about-services-section {
   background: #f8fafc;
   padding: 80px 0;
@@ -948,9 +935,7 @@ about-hero {
   line-height: 1.7;
 }
  
-/* ===========================
-   ABOUT STATS BOX
-   =========================== */
+
 .about-stats-box {
   background: #ffffff;
   border-radius: 16px;
@@ -989,9 +974,7 @@ about-hero {
   color: #9ca3af;
 }
  
-/* ===========================
-   MISSION / VISION / GROWTH
-   =========================== */
+
 .mvg-section {
   background: #ffffff;
   padding: 80px 0;
@@ -1040,9 +1023,7 @@ about-hero {
   line-height: 1.75;
 }
  
-/* ===========================
-   OUR JOURNEY / TIMELINE
-   =========================== */
+
 .journey-section {
   background: #f8fafc;
   padding: 80px 0;
@@ -1120,9 +1101,7 @@ about-hero {
   line-height: 1.6;
 }
  
-/* ===========================
-   CTA BANNER
-   =========================== */
+
 .cta-section {
   padding: 60px 0 80px;
   background: #ffffff;
@@ -1189,9 +1168,7 @@ about-hero {
   opacity: 0.88;
 }
  
-/* ===========================
-   TOP ARROW
-   =========================== */
+
 .top-arrow {
   position: fixed;
   bottom: 28px;
