@@ -3797,14 +3797,15 @@ footer {
   /* --- Slide-in mobile nav --- */
   .main-nav {
     position: fixed;
-    top: 0;
+    top: 64px;
     right: 0;
-    bottom: 0;
+    left:0;
+    height:50vh;
     width: min(300px, 88vw);
-    background: var(--bg-white);
-    padding: 72px 24px 28px;
-    box-shadow: -8px 0 32px rgba(15,23,42,0.12);
-    transform: translateX(100%);
+    background:#ffffff;
+    padding:16px 24px;
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12);
+    transform: translatey(-110%);
     transition: transform 0.28s ease;
     z-index: 1100;
     overflow-y: auto;
