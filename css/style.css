@@ -2311,6 +2311,225 @@ header {
   margin-top: 2rem;
   margin-bottom: -28px;
 }
+
+
+.bk-hero {
+  background: linear-gradient(135deg, #eef2ff 0%, #f0f7ff 50%, #e8f4fd 100%);
+  padding: 56px 0 44px;
+}
+
+.bk-hero-title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.2;
+  margin: 14px 0;
+  letter-spacing: -0.02em;
+}
+
+.bk-hero-desc {
+  font-size: 0.9rem;
+  color: #6b7280;
+  line-height: 1.75;
+  max-width: 520px;
+}
+
+
+.bk-step-card .feature-icon {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.bk-step-num {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #2563eb;
+  letter-spacing: -0.02em;
+}
+
+
+.bk-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.bk-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bk-pill {
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1.5px solid #d1d5db;
+  background: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  font-family: inherit;
+}
+
+.bk-pill:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.bk-pill-active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.bk-sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.bk-sort select {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.83rem;
+  color: #374151;
+  background: #ffffff;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+
+.bk-no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: #9ca3af;
+}
+
+.bk-no-results i {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.bk-no-results p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.bk-modal-lock {
+  width: 56px;
+  height: 56px;
+  background: #dbeafe;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #2563eb;
+  margin: 0 auto 16px;
+}
+
+.bk-modal-desc {
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.bk-modal-summary {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bk-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.83rem;
+}
+
+.bk-summary-row span:first-child { color: #9ca3af; }
+.bk-summary-row span:last-child  { font-weight: 600; color: #111827; }
+
+.bk-modal-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.bk-btn-full {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.bk-btn-register {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 13px;
+  border: 2px solid #111827;
+  border-radius: 10px;
+  background: #111827;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+  font-family: inherit;
+}
+
+.bk-btn-register:hover {
+  background: #1f2937;
+  border-color: #1f2937;
+}
+
+.bk-modal-note {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.bk-modal-note i { color: #16a34a; }
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  .bk-hero-title { font-size: 2rem; }
+  .bk-bar { flex-direction: column; align-items: flex-start; }
+  .bk-modal-actions { flex-direction: column; }
+  .bk-btn-full, .bk-btn-register { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .bk-hero { padding: 40px 0 28px; }
+  .bk-hero-title { font-size: 1.7rem; }
+}
 .filter-group {
   display: flex;
   flex-direction: column;
