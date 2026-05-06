@@ -870,222 +870,180 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
 
-  
   const navToggle = document.querySelector('.nav-toggle');
   const mainNav   = document.getElementById('main-nav');
   if (navToggle && mainNav) {
     navToggle.addEventListener('click', () => {
-      const open = mainNav.classList.toggle('open');
+      const open = mainNav.classList.toggle('nav-open');
       navToggle.setAttribute('aria-expanded', open);
     });
-
-  const cards      = Array.from(document.querySelectorAll('.vehicle-card'));
-  const noResults  = document.getElementById('noResults');
-  const countLabel = document.getElementById('resultsCount');
-
-  function updateCount(visible) {
-    countLabel.textContent = `Showing ${visible} vehicle${visible !== 1 ? 's' : ''}`;
   }
 
   
-  const pills = document.querySelectorAll('.pill');
+  const cards      = Array.from(document.querySelectorAll('.vehicle-card'));
+  const noResults  = document.getElementById('noResults');
+  const countLabel = document.getElementById('resultsCount');
+  const grid       = document.getElementById('vehiclesGrid');
+  const pills      = document.querySelectorAll('.bk-pill');
+  const fLocEl     = document.getElementById('f-location');
+  const fTypeEl    = document.getElementById('f-type');
+  const fPickup    = document.getElementById('f-pickup');
+  const fReturn    = document.getElementById('f-return');
+  const searchBtn  = document.getElementById('searchBtn');
+  const resetBtn   = document.getElementById('resetBtn');
+  const sortBy     = document.getElementById('sortBy');
+
   let activeType = 'all';
 
+  
+  const today = new Date().toISOString().split('T')[0];
+  fPickup.min = today;
+  fReturn.min = today;
+  fPickup.addEventListener('change', () => {
+    fReturn.min = fPickup.value || today;
+    if (fReturn.value && fReturn.value < fPickup.value) fReturn.value = fPickup.value;
+  });
+
+
+  function updateCount(n) {
+    countLabel.textContent = `Showing ${n} vehicle${n !== 1 ? 's' : ''}`;
+  }
+
+  function applyFilters() {
+    const loc = fLocEl.value.toLowerCase();
+    let visible = 0;
+
+    cards.forEach(card => {
+      const typeMatch = activeType === 'all' || card.dataset.type === activeType;
+      const locMatch  = !loc || card.dataset.location === loc;
+      const show      = typeMatch && locMatch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    updateCount(visible);
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  
   pills.forEach(pill => {
     pill.addEventListener('click', () => {
-      pills.forEach(p => p.classList.remove('pill-active'));
-      pill.classList.add('pill-active');
+      pills.forEach(p => p.classList.remove('bk-pill-active'));
+      pill.classList.add('bk-pill-active');
       activeType = pill.dataset.type;
+      // also sync dropdown
+      if (fTypeEl) fTypeEl.value = activeType === 'all' ? '' : activeType;
       applyFilters();
     });
   });
 
   
-  const filterLocation = document.getElementById('f-location');
-  const filterType     = document.getElementById('f-type');
-  const searchBtn      = document.getElementById('searchBtn');
-  const resetBtn       = document.getElementById('resetBtn');
+  if (searchBtn) {
+    searchBtn.addEventListener('click', () => {
+      // sync type pill with dropdown
+      const chosen = fTypeEl.value;
+      activeType = chosen || 'all';
+      pills.forEach(p => p.classList.toggle('bk-pill-active', p.dataset.type === activeType));
+      applyFilters();
+    });
+  }
 
-  searchBtn.addEventListener('click', () => {
-    
-    if (filterType.value) {
-      activeType = filterType.value;
-      pills.forEach(p => {
-        p.classList.toggle('pill-active', p.dataset.type === activeType);
-      });
-    }
-    applyFilters();
-  });
-
+  
   if (resetBtn) {
-    resetBtn.addEventListener('click', resetFilters);
-  }
-
-  function applyFilters() {
-    const locVal  = filterLocation.value.toLowerCase();
-    let visible = 0;
-
-    cards.forEach(card => {
-      const cardType  = card.dataset.type;
-      const cardLoc   = card.dataset.location;
-
-      const typeMatch = activeType === 'all' || cardType === activeType;
-      const locMatch  = !locVal || cardLoc === locVal;
-
-      if (typeMatch && locMatch) {
-        card.style.display = '';
-        card.style.animationDelay = (visible * 0.06) + 's';
-        card.style.animation = 'none';
-        void card.offsetWidth; // reflow
-        card.style.animation = '';
-        visible++;
-      } else {
-        card.style.display = 'none';
-      }
+    resetBtn.addEventListener('click', () => {
+      fLocEl.value  = '';
+      fTypeEl.value = '';
+      fPickup.value = '';
+      fReturn.value = '';
+      activeType = 'all';
+      pills.forEach(p => p.classList.toggle('bk-pill-active', p.dataset.type === 'all'));
+      cards.forEach(c => (c.style.display = ''));
+      updateCount(cards.length);
+      noResults.style.display = 'none';
     });
-
-    updateCount(visible);
-    noResults.classList.toggle('hidden', visible > 0);
   }
 
-  function resetFilters() {
-    filterLocation.value = '';
-    filterType.value = '';
-    activeType = 'all';
-    pills.forEach(p => p.classList.toggle('pill-active', p.dataset.type === 'all'));
-    cards.forEach(card => (card.style.display = ''));
-    updateCount(cards.length);
-    noResults.classList.add('hidden');
-  }
-
-
-  const sortBy = document.getElementById('sortBy');
-  const grid   = document.getElementById('vehiclesGrid');
-
-  sortBy.addEventListener('change', () => {
-    const val = sortBy.value;
-    const sorted = [...cards].sort((a, b) => {
-      if (val === 'price-asc')  return +a.dataset.price - +b.dataset.price;
-      if (val === 'price-desc') return +b.dataset.price - +a.dataset.price;
-      if (val === 'rating')     return +b.dataset.rating - +a.dataset.rating;
-      return 0; // default / featured
+  
+  if (sortBy) {
+    sortBy.addEventListener('change', () => {
+      const val = sortBy.value;
+      const sorted = [...cards].sort((a, b) => {
+        if (val === 'price-asc')  return +a.dataset.price  - +b.dataset.price;
+        if (val === 'price-desc') return +b.dataset.price  - +a.dataset.price;
+        if (val === 'rating')     return +b.dataset.rating - +a.dataset.rating;
+        return 0;
+      });
+      sorted.forEach(c => grid.appendChild(c));
     });
-    sorted.forEach(card => grid.appendChild(card));
-  });
+  }
 
   
   document.querySelectorAll('.v-fav').forEach(fav => {
     fav.addEventListener('click', () => {
-      fav.classList.toggle('active');
       const icon = fav.querySelector('i');
-      if (fav.classList.contains('active')) {
-        icon.classList.replace('fa-regular', 'fa-solid');
-      } else {
-        icon.classList.replace('fa-solid', 'fa-regular');
-      }
+      const isActive = fav.classList.toggle('active');
+      icon.classList.toggle('fa-solid',  isActive);
+      icon.classList.toggle('fa-regular', !isActive);
+      fav.style.color = isActive ? '#ef4444' : '';
     });
   });
 
-  
-  const modalOverlay = document.getElementById('modalOverlay');
-  const modalClose   = document.getElementById('modalClose');
-  const modalCarName = document.getElementById('modalCarName');
-  const modalSummary = document.getElementById('modalSummary');
-  const pickupInput  = document.getElementById('f-pickup');
-  const returnInput  = document.getElementById('f-return');
+
+  const overlay    = document.getElementById('modalOverlay');
+  const modalClose = document.getElementById('modalClose');
+  const modalCar   = document.getElementById('modalCarName');
+  const modalSum   = document.getElementById('modalSummary');
 
   function openModal(carName, pricePerDay) {
-    modalCarName.textContent = carName;
+    modalCar.textContent = carName;
 
-    const pickup  = pickupInput.value;
-    const ret     = returnInput.value;
+    const p = fPickup.value ? new Date(fPickup.value) : null;
+    const r = fReturn.value ? new Date(fReturn.value) : null;
+    let html = '';
 
-    let summaryHTML = '';
-
-    if (pickup && ret && pickup <= ret) {
-      const p = new Date(pickup);
-      const r = new Date(ret);
-      const days = Math.round((r - p) / (1000 * 60 * 60 * 24)) || 1;
+    if (p && r && r >= p) {
+      const days  = Math.max(1, Math.round((r - p) / 86400000));
       const total = (days * +pricePerDay).toLocaleString();
-
-      summaryHTML = `
-        <div class="modal-summary-row">
-          <span>Pickup</span>
-          <span>${formatDate(p)}</span>
-        </div>
-        <div class="modal-summary-row">
-          <span>Return</span>
-          <span>${formatDate(r)}</span>
-        </div>
-        <div class="modal-summary-row">
-          <span>Duration</span>
-          <span>${days} day${days !== 1 ? 's' : ''}</span>
-        </div>
-        <div class="modal-summary-row">
-          <span>Estimated Total</span>
-          <span style="color:var(--blue);font-weight:800;">₵${total}</span>
-        </div>
-      `;
+      html = `
+        <div class="bk-summary-row"><span>Pickup</span><span>${fmt(p)}</span></div>
+        <div class="bk-summary-row"><span>Return</span><span>${fmt(r)}</span></div>
+        <div class="bk-summary-row"><span>Duration</span><span>${days} day${days !== 1 ? 's' : ''}</span></div>
+        <div class="bk-summary-row"><span>Estimated Total</span>
+          <span style="color:#2563eb;font-weight:800;">₵${total}</span></div>`;
     } else {
-      summaryHTML = `
-        <div class="modal-summary-row">
-          <span>Price per day</span>
-          <span style="color:var(--blue);font-weight:800;">₵${Number(pricePerDay).toLocaleString()}</span>
-        </div>
-        <div class="modal-summary-row">
-          <span>Dates</span>
-          <span style="color:var(--muted);">Select dates above</span>
-        </div>
-      `;
+      html = `
+        <div class="bk-summary-row"><span>Price per day</span>
+          <span style="color:#2563eb;font-weight:800;">₵${Number(pricePerDay).toLocaleString()}</span></div>
+        <div class="bk-summary-row"><span>Dates</span><span style="color:#9ca3af;">Not selected yet</span></div>`;
     }
 
-    modalSummary.innerHTML = summaryHTML;
-    modalOverlay.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
+    modalSum.innerHTML = html;
+    overlay.classList.add('overlay-active');
+    document.body.classList.add('modal-open');
   }
 
   function closeModal() {
-    modalOverlay.classList.add('hidden');
-    document.body.style.overflow = '';
+    overlay.classList.remove('overlay-active');
+    document.body.classList.remove('modal-open');
   }
 
-  modalClose.addEventListener('click', closeModal);
-  modalOverlay.addEventListener('click', e => {
-    if (e.target === modalOverlay) closeModal();
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
   document.querySelectorAll('.btn-book').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const car   = btn.dataset.car;
-      const price = btn.dataset.price;
-      openModal(car, price);
-    });
+    btn.addEventListener('click', () => openModal(btn.dataset.car, btn.dataset.price));
   });
 
   
-  function formatDate(d) {
+  function fmt(d) {
     return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   }
 
-  /* ── Set min date on pickup/return inputs ── */
-  const today = new Date().toISOString().split('T')[0];
-  pickupInput.min  = today;
-  returnInput.min  = today;
-
-  pickupInput.addEventListener('change', () => {
-    returnInput.min = pickupInput.value || today;
-    if (returnInput.value && returnInput.value < pickupInput.value) {
-      returnInput.value = pickupInput.value;
-    }
-  });
-
   
   updateCount(cards.length);
-
 });
+
+
