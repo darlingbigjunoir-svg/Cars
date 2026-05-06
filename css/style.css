@@ -2826,15 +2826,7 @@ header {
   align-items: center;
   gap: .1rem;
 }
-.v-actions{
-  color: #2563eb;
-  background: #2563eb;
-  outline: none;
-  border:solid blue ;
-  border-radius: 20px;
 
-
-}
 .v-price i { font-size: 1rem; }
 .btn-book {
   padding: .55rem 1.2rem;
