@@ -1,578 +1,546 @@
 
+'use strict';
 
 
+const qs  = (sel, ctx = document) => ctx.querySelector(sel);
+const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
-const $ = (sel, ctx = document) => ctx.querySelector(sel);
-
-/** Select multiple elements */
-const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
-
-/** Add event listener safely (noop if el is null) */
-const on = (el, evt, fn, opts) => el && el.addEventListener(evt, fn, opts);
-
-/** Debounce */
-const debounce = (fn, ms = 300) => {
+function debounce(fn, ms = 200) {
   let t;
   return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
-};
+}
 
 
 function initMobileNav() {
-  const toggle = $('.nav-toggle');
-  const nav    = $('#main-nav');
+  const toggle = qs('.nav-toggle');
+  const nav    = qs('.main-nav');
   if (!toggle || !nav) return;
 
-  const open = () => {
-    nav.classList.add('nav-open');
-    toggle.setAttribute('aria-expanded', 'true');
-    toggle.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-    document.body.style.overflow = 'hidden';
-  };
-
-  const close = () => {
-    nav.classList.remove('nav-open');
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
-    document.body.style.overflow = '';
-  };
-
-  on(toggle, 'click', () =>
-    nav.classList.contains('nav-open') ? close() : open()
-  );
-
-  
-  $$('a', nav).forEach(link => on(link, 'click', close));
-
-  // Close on outside click
-  on(document, 'click', e => {
-    if (nav.classList.contains('nav-open') &&
-        !nav.contains(e.target) &&
-        !toggle.contains(e.target)) close();
-  });
-
-  // Close on Escape
-  on(document, 'keydown', e => {
-    if (e.key === 'Escape' && nav.classList.contains('nav-open')) close();
-  });
-}
-
-
-function initStickyHeader() {
-  const header = $('header');
-  if (!header) return;
-
-  const update = () => {
-    header.style.boxShadow = window.scrollY > 10
-      ? '0 2px 16px rgba(0,0,0,0.08)'
-      : '';
-  };
-
-  on(window, 'scroll', update, { passive: true });
-  update();
-}
-
-
-function initBackToTop() {
-  const btn = $('.top-arrow');
-  if (!btn) return;
-
-  const update = () => {
-    btn.style.opacity  = window.scrollY > 300 ? '1' : '0';
-    btn.style.pointerEvents = window.scrollY > 300 ? 'auto' : 'none';
-  };
-
-  btn.style.transition = 'opacity 0.3s';
-  on(window, 'scroll', update, { passive: true });
-  update();
-}
-
-function initAuthModals() {
-  const overlay      = $('#modal-overlay');
-  const loginModal   = $('#login-modal');
-  const registerModal= $('#register-modal');
-  if (!overlay) return;
-
-  
-  const showLogin = () => {
-    overlay.classList.add('overlay-active');
-    loginModal.classList.remove('modal-hidden');
-    registerModal.classList.add('modal-hidden');
-    document.body.classList.add('modal-open');
-    $('#login-email')?.focus();
-  };
-
-  const showRegister = () => {
-    loginModal.classList.add('modal-hidden');
-    registerModal.classList.remove('modal-hidden');
-    overlay.classList.add('overlay-active');
-    document.body.classList.add('modal-open');
-    $('#reg-name')?.focus();
-  };
-
-  const closeAll = () => {
-    overlay.classList.remove('overlay-active');
-    document.body.classList.remove('modal-open');
-  };
-
-  
-  on($('#open-login-btn'), 'click', e => { e.preventDefault(); showLogin(); });
-  on($('#close-login'),    'click', closeAll);
-  on($('#close-register'), 'click', closeAll);
-  on($('#go-to-register'), 'click', e => { e.preventDefault(); showRegister(); });
-  on($('#go-to-login'),    'click', e => { e.preventDefault(); showLogin(); });
-
-  
-  on(overlay, 'click', e => { if (e.target === overlay) closeAll(); });
-
-  on(document, 'keydown', e => {
-    if (e.key === 'Escape') closeAll();
+  toggle.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    nav.classList.toggle('nav-open');
+    // Swap burger ↔ close icon
+    const icon = toggle.querySelector('i');
+    if (icon) {
+      icon.classList.toggle('fa-bars', expanded);
+      icon.classList.toggle('fa-xmark', !expanded);
+    }
   });
 
   
-  $$('.toggle-pw').forEach(btn => {
-    on(btn, 'click', () => {
-      const targetId = btn.dataset.pwTarget;
-      const input    = $(`#${targetId}`);
-      if (!input) return;
-      const isText = input.type === 'text';
-      input.type   = isText ? 'password' : 'text';
-      btn.innerHTML = isText
-        ? '<i class="fa-regular fa-eye-slash"></i>'
-        : '<i class="fa-regular fa-eye"></i>';
-      btn.setAttribute('aria-label', isText ? 'Show password' : 'Hide password');
+  qsa('.main-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      nav.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      const icon = toggle.querySelector('i');
+      if (icon) { icon.classList.add('fa-bars'); icon.classList.remove('fa-xmark'); }
     });
   });
 
   
-  const loginForm = $('#login-form');
-  on(loginForm, 'submit', e => {
-    e.preventDefault();
-    const email = $('#login-email').value.trim();
-    const pw    = $('#login-password').value;
-
-    if (!email || !pw) {
-      showToast('Please fill in all fields.', 'error');
-      return;
+  document.addEventListener('click', e => {
+    if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+      nav.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      const icon = toggle.querySelector('i');
+      if (icon) { icon.classList.add('fa-bars'); icon.classList.remove('fa-xmark'); }
     }
-    if (!isValidEmail(email)) {
-      showToast('Please enter a valid email address.', 'error');
-      return;
-    }
+  });
+}
 
-    // Simulate login success
-    showToast('Signed in successfully! Redirecting…', 'success');
-    setTimeout(() => {
-      closeAll();
-      window.location.href = 'index.html';
-    }, 1500);
+
+function initScrollTop() {
+  const arrow = qs('.top-arrow');
+  if (!arrow) return;
+
+  const toggle = () => arrow.classList.toggle('visible', window.scrollY > 300);
+  window.addEventListener('scroll', toggle, { passive: true });
+  toggle();
+}
+
+
+function initSearchBox() {
+  const boxes = qsa('.search-box');
+  boxes.forEach(box => {
+    const input = box.querySelector('input');
+    const icon  = box.querySelector('.search-icon');
+    if (!input || !icon) return;
+
+    icon.addEventListener('click', () => {
+      box.classList.toggle('search-open');
+      if (box.classList.contains('search-open')) input.focus();
+    });
+
+    input.addEventListener('blur', () => {
+      if (!input.value.trim()) box.classList.remove('search-open');
+    });
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { box.classList.remove('search-open'); input.blur(); }
+      if (e.key === 'Enter' && input.value.trim()) {
+        // Basic in-page search notification (replace with real search if needed)
+        showToast(`Searching for "${input.value.trim()}"…`);
+        input.value = '';
+        box.classList.remove('search-open');
+      }
+    });
+  });
+}
+
+function showToast(msg, type = 'info', duration = 3500) {
+  let container = qs('#toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    container.setAttribute('aria-live', 'polite');
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `<span>${msg}</span>`;
+  container.appendChild(toast);
+
+  // Trigger animation
+  requestAnimationFrame(() => toast.classList.add('toast-show'));
+
+  setTimeout(() => {
+    toast.classList.remove('toast-show');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+  }, duration);
+}
+
+function initLoginModal() {
+  const overlay       = qs('#modal-overlay');
+  const loginModal    = qs('#login-modal');
+  const registerModal = qs('#register-modal');
+  if (!overlay) return;
+
+  const openLoginBtn  = qs('#open-login-btn');
+  const closeLogin    = qs('#close-login');
+  const closeRegister = qs('#close-register');
+  const goToRegister  = qs('#go-to-register');
+  const goToLogin     = qs('#go-to-login');
+
+  function openModal(show, hide) {
+    overlay.classList.add('active');
+    show.classList.remove('modal-hidden');
+    hide && hide.classList.add('modal-hidden');
+    document.body.style.overflow = 'hidden';
+    // Focus first input
+    const firstInput = show.querySelector('input');
+    if (firstInput) setTimeout(() => firstInput.focus(), 100);
+  }
+
+  function closeAll() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  
+  if (document.body.classList.contains('page-login')) {
+    openModal(loginModal, registerModal);
+  }
+
+  openLoginBtn  && openLoginBtn.addEventListener('click',  e => { e.preventDefault(); openModal(loginModal, registerModal); });
+  closeLogin    && closeLogin.addEventListener('click',    closeAll);
+  closeRegister && closeRegister.addEventListener('click', closeAll);
+  goToRegister  && goToRegister.addEventListener('click',  e => { e.preventDefault(); openModal(registerModal, loginModal); });
+  goToLogin     && goToLogin.addEventListener('click',     e => { e.preventDefault(); openModal(loginModal, registerModal); });
+
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeAll(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+
+  
+  qsa('.toggle-pw').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.pwTarget;
+      const input    = qs(`#${targetId}`);
+      if (!input) return;
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      const icon = btn.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('fa-eye', show);
+        icon.classList.toggle('fa-eye-slash', !show);
+      }
+    });
   });
 
+  
+  const loginForm = qs('#login-form');
+  if (loginForm) {
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!validateForm(loginForm)) return;
+      const btn = loginForm.querySelector('[type=submit]');
+      btn.textContent = 'Signing in…';
+      btn.disabled = true;
+      // Simulate async login
+      setTimeout(() => {
+        showToast('Welcome back! Redirecting…', 'success');
+        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+      }, 1000);
+    });
+  }
 
-  const regForm = $('#register-form');
-  on(regForm, 'submit', e => {
-    e.preventDefault();
-    const name    = $('#reg-name').value.trim();
-    const email   = $('#reg-email').value.trim();
-    const pw      = $('#reg-password').value;
-    const confirm = $('#reg-confirm').value;
+  
+  const registerForm = qs('#register-form');
+  if (registerForm) {
+    registerForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!validateForm(registerForm)) return;
+      const pwd     = qs('#reg-password', registerForm);
+      const confirm = qs('#reg-confirm',  registerForm);
+      if (pwd && confirm && pwd.value !== confirm.value) {
+        markInvalid(confirm, 'Passwords do not match');
+        return;
+      }
+      const btn = registerForm.querySelector('[type=submit]');
+      btn.textContent = 'Creating account…';
+      btn.disabled = true;
+      setTimeout(() => {
+        showToast('Account created! Welcome to Mashin!', 'success');
+        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+      }, 1000);
+    });
+  }
+}
 
-    if (!name || !email || !pw || !confirm) {
-      showToast('Please fill in all fields.', 'error');
-      return;
+function validateForm(form) {
+  let valid = true;
+  qsa('[required]', form).forEach(field => {
+    clearInvalid(field);
+    if (!field.value.trim()) {
+      markInvalid(field, 'This field is required');
+      valid = false;
+    } else if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)) {
+      markInvalid(field, 'Enter a valid email address');
+      valid = false;
     }
-    if (!isValidEmail(email)) {
-      showToast('Please enter a valid email address.', 'error');
-      return;
-    }
-    if (pw.length < 6) {
-      showToast('Password must be at least 6 characters.', 'error');
-      return;
-    }
-    if (pw !== confirm) {
-      showToast('Passwords do not match.', 'error');
-      return;
-    }
-
-    showToast('Account created! Signing you in…', 'success');
-    setTimeout(() => {
-      closeAll();
-      window.location.href = 'index.html';
-    }, 1500);
   });
+  return valid;
+}
+
+function markInvalid(field, msg) {
+  field.classList.add('field-error');
+  let err = field.parentElement.querySelector('.error-msg');
+  if (!err) {
+    err = document.createElement('span');
+    err.className = 'error-msg';
+    field.parentElement.appendChild(err);
+  }
+  err.textContent = msg;
+  field.addEventListener('input', () => clearInvalid(field), { once: true });
+}
+
+function clearInvalid(field) {
+  field.classList.remove('field-error');
+  const err = field.parentElement && field.parentElement.querySelector('.error-msg');
+  if (err) err.remove();
 }
 
 
 function initContactForm() {
-  const form = $('#contact-form');
+  const form = qs('#contact-form');
   if (!form) return;
 
-  on(form, 'submit', e => {
+  form.addEventListener('submit', e => {
     e.preventDefault();
+    if (!validateForm(form)) return;
 
-    const name    = $('#cf-name')?.value.trim();
-    const email   = $('#cf-email')?.value.trim();
-    const message = $('#cf-message')?.value.trim();
-
-    if (!name) {
-      showToast('Please enter your full name.', 'error');
-      $('#cf-name')?.focus();
-      return;
-    }
-    if (!email || !isValidEmail(email)) {
-      showToast('Please enter a valid email address.', 'error');
-      $('#cf-email')?.focus();
-      return;
-    }
-    if (!message) {
-      showToast('Please enter a message.', 'error');
-      $('#cf-message')?.focus();
-      return;
-    }
-
-    const btn = form.querySelector('.btn-send-message');
-    const original = btn.innerHTML;
-    btn.disabled = true;
+    const btn = form.querySelector('[type=submit]');
+    const orig = btn.innerHTML;
     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending…';
+    btn.disabled  = true;
 
     // Simulate API call
     setTimeout(() => {
-      showToast('Message sent! We\'ll get back to you within 24 hours.', 'success');
+      showToast('Message sent! We\'ll get back to you within 24 hours.', 'success', 4000);
       form.reset();
-      btn.disabled = false;
-      btn.innerHTML = original;
-    }, 1800);
-  });
-}
-
-
-function initBookingForm() {
-  const btn = $('.btn-search');
-  if (!btn) return;
-
-  on(btn, 'click', () => {
-    const location = $('#location')?.value;
-    const pickup   = $('#pickup')?.value;
-    const ret      = $('#return')?.value;
-
-    if (!location) {
-      showToast('Please select a location.', 'error');
-      return;
-    }
-    if (!pickup) {
-      showToast('Please select a pickup date.', 'error');
-      return;
-    }
-    if (!ret) {
-      showToast('Please select a return date.', 'error');
-      return;
-    }
-    if (new Date(ret) <= new Date(pickup)) {
-      showToast('Return date must be after pickup date.', 'error');
-      return;
-    }
-
-    const params = new URLSearchParams({ location, pickup, return: ret });
-    window.location.href = `rentals.html?${params}`;
+      btn.innerHTML = orig;
+      btn.disabled  = false;
+    }, 1500);
   });
 
   
-  const today = new Date().toISOString().split('T')[0];
-  const pickupInput = $('#pickup');
-  const returnInput = $('#return');
-
-  if (pickupInput) {
-    pickupInput.min = today;
-    on(pickupInput, 'change', () => {
-      if (returnInput) returnInput.min = pickupInput.value;
+  const textarea = qs('#cf-message');
+  if (textarea) {
+    const counter = document.createElement('span');
+    counter.className = 'char-counter';
+    counter.textContent = '0 / 1000';
+    textarea.parentElement.appendChild(counter);
+    textarea.setAttribute('maxlength', '1000');
+    textarea.addEventListener('input', () => {
+      counter.textContent = `${textarea.value.length} / 1000`;
     });
   }
-  if (returnInput) returnInput.min = today;
 }
 
 
-function initRentalsSearch() {
-  const bar = $('.rentals-search-bar');
-  if (!bar) return;
+function initFaqAccordion() {
+  const items = qsa('.faq-item');
+  if (!items.length) return;
 
-  const today  = new Date().toISOString().split('T')[0];
-  const inputs = $$('input[type="date"]', bar);
-  inputs.forEach(inp => { inp.min = today; });
-
-  if (inputs[0]) {
-    on(inputs[0], 'change', () => {
-      if (inputs[1]) inputs[1].min = inputs[0].value;
-    });
-  }
-
-  
-  const params   = new URLSearchParams(window.location.search);
-  const locSel   = $('select', bar);
-  if (locSel && params.get('location'))   locSel.value   = params.get('location');
-  if (inputs[0] && params.get('pickup'))  inputs[0].value = params.get('pickup');
-  if (inputs[1] && params.get('return'))  inputs[1].value = params.get('return');
-}
-
-
-function initFilterSidebarToggle() {
-  const toggleBtn = $('#toggle-rentals-filters');
-  const sidebar   = $('#rentals-filters');
-  if (!toggleBtn || !sidebar) return;
-
-  on(toggleBtn, 'click', () => {
-    const open = sidebar.classList.toggle('filters-open');
-    toggleBtn.innerHTML = open
-      ? '<i class="fa-solid fa-xmark"></i> Close Filters'
-      : '<i class="fa-solid fa-sliders"></i> Filters';
-  });
-}
-
-
-function initRentalsFilters() {
-  const grid = $('.rentals-cars-grid');
-  if (!grid) return;
-
-  const cards = $$('.rental-card', grid);
-
-  
-  const getData = card => ({
-    name:         card.querySelector('h4')?.textContent.toLowerCase() || '',
-    category:     card.querySelector('.v-tag')?.textContent.trim().toLowerCase() || '',
-    transmission: card.querySelector('.r-specs span:nth-child(1)')?.textContent.trim().toLowerCase() || '',
-    fuel:         card.querySelector('.r-specs span:nth-child(2)')?.textContent.trim().toLowerCase() || '',
-    seats:        parseInt(card.querySelector('.r-specs span:nth-child(3)')?.textContent) || 0,
-    price:        parseFloat(card.querySelector('.r-price')?.textContent.replace(/[^\d.]/g, '')) || 0,
-    location:     card.querySelector('.r-specs span:nth-child(4)')?.textContent.trim().toLowerCase() || '',
-  });
-
-  const filterAndSort = debounce(() => {
-    const search       = $('.filter-search-input')?.value.toLowerCase() || '';
-    const catRadio     = $('input[name="category"]:checked');
-    const transRadio   = $('input[name="transmission"]:checked');
-    const fuelRadio    = $('input[name="fuel"]:checked');
-    const seatsRadio   = $('input[name="seats"]:checked');
-    const brandSel     = $('.filter-select')?.value.toLowerCase() || '';
-    const minPrice     = parseFloat($('.price-input')?.value) || 0;
-    const maxPrice     = parseFloat($$('.price-input')[1]?.value) || Infinity;
-    const sortVal      = $('.sort-select')?.value || '';
-    const locationSel  = $('.rsb-select')?.value.toLowerCase() || '';
-
-    let visible = cards.filter(card => {
-      const d = getData(card);
-
-      if (search && !d.name.includes(search)) return false;
-      if (catRadio && !d.category.includes(catRadio.value)) return false;
-      if (transRadio && !d.transmission.includes(transRadio.value)) return false;
-      if (fuelRadio && !d.fuel.includes(fuelRadio.value)) return false;
-      if (seatsRadio) {
-        const sv = seatsRadio.value;
-        if (sv === '7+' ? d.seats < 7 : d.seats !== parseInt(sv)) return false;
-      }
-      if (brandSel && brandSel !== 'all brands' && !d.name.includes(brandSel)) return false;
-      if (d.price < minPrice || d.price > maxPrice) return false;
-      if (locationSel && !d.location.includes(locationSel)) return false;
-
-      return true;
-    });
+  items.forEach(item => {
+    const heading = item.querySelector('h5');
+    const body    = item.querySelector('p');
+    if (!heading || !body) return;
 
     
-    if (sortVal.includes('Low to High')) {
-      visible.sort((a, b) => getData(a).price - getData(b).price);
-    } else if (sortVal.includes('High to Low')) {
-      visible.sort((a, b) => getData(b).price - getData(a).price);
-    }
+    body.style.overflow  = 'hidden';
+    body.style.maxHeight = '0';
+    body.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
+    body.style.opacity   = '0';
 
-    
-    cards.forEach(c => { c.style.display = 'none'; });
-    visible.forEach(c => { c.style.display = ''; });
+    heading.style.cursor = 'pointer';
+    heading.setAttribute('tabindex', '0');
+    heading.setAttribute('role', 'button');
+    heading.setAttribute('aria-expanded', 'false');
 
-  
-    const countEl = $('.results-count');
-    if (countEl) countEl.textContent = `${visible.length} car${visible.length !== 1 ? 's' : ''} found`;
-
-    
-    let empty = $('#no-results');
-    if (visible.length === 0) {
-      if (!empty) {
-        empty = document.createElement('p');
-        empty.id = 'no-results';
-        empty.style.cssText = 'grid-column:1/-1;text-align:center;padding:40px;color:#6b7280;font-size:0.9rem;';
-        empty.textContent = 'No cars match your filters. Try adjusting your search.';
-        grid.appendChild(empty);
-      }
-    } else {
-      empty?.remove();
-    }
-  }, 200);
-
-
-  on($('.filter-search-input'), 'input', filterAndSort);
-  on($('.filter-select'),       'change', filterAndSort);
-  on($('.sort-select'),         'change', filterAndSort);
-  on($('.rsb-select'),          'change', filterAndSort);
-
-  $$('input[type="radio"]', $('#rentals-filters')).forEach(r => on(r, 'change', filterAndSort));
-  $$('.price-input').forEach(inp => on(inp, 'input', filterAndSort));
-
-  on($('.clear-all'), 'click', e => {
-    e.preventDefault();
-    $$('input[type="radio"]').forEach(r => r.checked = false);
-    $$('.price-input').forEach(i => i.value = '');
-    if ($('.filter-search-input')) $('.filter-search-input').value = '';
-    if ($('.filter-select')) $('.filter-select').selectedIndex = 0;
-    filterAndSort();
-  });
-}
-
-
-function initViewToggle() {
-  const gridBtn = $('.view-btn:first-of-type');
-  const listBtn = $('.view-btn:last-of-type');
-  const grid    = $('.rentals-cars-grid');
-  if (!gridBtn || !listBtn || !grid) return;
-
-  on(gridBtn, 'click', () => {
-    grid.style.gridTemplateColumns = '';
-    gridBtn.classList.add('view-btn-active');
-    listBtn.classList.remove('view-btn-active');
-  });
-
-  on(listBtn, 'click', () => {
-    grid.style.gridTemplateColumns = '1fr';
-    listBtn.classList.add('view-btn-active');
-    gridBtn.classList.remove('view-btn-active');
-  });
-}
-
-
-function initBookingTabs() {
-  const tabs = $$('.booking-tab');
-  if (!tabs.length) return;
-
-  const cards = $$('.booking-card');
-
-  const getStatus = card => {
-    const badge = card.querySelector('.booking-status-badge');
-    if (!badge) return 'unknown';
-    if (badge.classList.contains('active'))  return 'active';
-    if (badge.classList.contains('pending')) return 'pending';
-    if (badge.classList.contains('past'))    return 'past';
-    return 'unknown';
-  };
-
-  tabs.forEach(tab => {
-    on(tab, 'click', () => {
-      tabs.forEach(t => t.classList.remove('booking-tab-active'));
-      tab.classList.add('booking-tab-active');
-
-      const label = tab.textContent.trim().split(/\d/)[0].trim().toLowerCase();
-
-      cards.forEach(card => {
-        if (label === 'all') {
-          card.style.display = '';
-        } else if (label === 'upcoming') {
-          card.style.display = getStatus(card) === 'pending' ? '' : 'none';
-        } else {
-          card.style.display = getStatus(card) === label ? '' : 'none';
+    function toggle() {
+      const open = item.classList.toggle('faq-open');
+      body.style.maxHeight = open ? body.scrollHeight + 'px' : '0';
+      body.style.opacity   = open ? '1' : '0';
+      heading.setAttribute('aria-expanded', String(open));
+      
+      items.forEach(other => {
+        if (other !== item) {
+          other.classList.remove('faq-open');
+          const b = other.querySelector('p');
+          const h = other.querySelector('h5');
+          if (b) { b.style.maxHeight = '0'; b.style.opacity = '0'; }
+          if (h) h.setAttribute('aria-expanded', 'false');
         }
       });
+    }
 
-      // Empty state
-      const visible = cards.filter(c => c.style.display !== 'none');
-      let empty = $('#no-bookings');
-      if (visible.length === 0) {
-        if (!empty) {
-          empty = document.createElement('div');
-          empty.id = 'no-bookings';
-          empty.style.cssText = 'text-align:center;padding:60px 20px;color:#6b7280;';
-          empty.innerHTML = '<i class="fa-solid fa-calendar-xmark" style="font-size:2.5rem;color:#d1d5db;margin-bottom:16px;display:block;"></i><p style="font-size:0.95rem;font-weight:600;">No bookings found</p><p style="font-size:0.82rem;margin-top:4px;">You have no '+label+' bookings.</p>';
-          $('.bookings-list')?.appendChild(empty);
-        }
-      } else {
-        empty?.remove();
-      }
+    heading.addEventListener('click', toggle);
+    heading.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+}
+
+
+function initHeroBookingForm() {
+
+  const today = new Date().toISOString().split('T')[0];
+  qsa('input[type="date"]').forEach(input => {
+    input.setAttribute('min', today);
+    if (input.id === 'pickup' || input.id === 'return') {
+      input.addEventListener('change', () => syncDates());
+    }
+  });
+
+  function syncDates() {
+    const pickup = qs('#pickup') || qs('#f-pickup');
+    const ret    = qs('#return') || qs('#f-return');
+    if (pickup && ret && pickup.value) {
+      ret.setAttribute('min', pickup.value);
+      if (ret.value && ret.value < pickup.value) ret.value = pickup.value;
+    }
+  }
+
+  
+  const searchBtn = qs('.btn-search');
+  if (searchBtn && !searchBtn.id?.includes('reset')) {
+    searchBtn.addEventListener('click', () => {
+      const location = (qs('#location') || qs('#f-location'))?.value || '';
+      const pickup   = (qs('#pickup')   || qs('#f-pickup'))?.value  || '';
+      const ret      = (qs('#return')   || qs('#f-return'))?.value  || '';
+
+      if (!location) { showToast('Please select a location.', 'warning'); return; }
+      if (!pickup)   { showToast('Please select a pickup date.', 'warning'); return; }
+      if (!ret)      { showToast('Please select a return date.', 'warning'); return; }
+
+      // Navigate to booking page with query params
+      const params = new URLSearchParams({ location, pickup, return: ret });
+      window.location.href = `booking.html?${params}`;
+    });
+  }
+}
+
+
+function initRentalsPage() {
+  const grid = qs('.rentals-cars-grid');
+  if (!grid) return;
+
+  const cards        = qsa('.rental-card', grid);
+  const countEl      = qs('.results-count');
+  const sortSelect   = qs('.sort-select');
+  const viewBtns     = qsa('.view-btn');
+  const searchInput  = qs('.filter-search-input');
+  const clearAllLink = qs('.clear-all');
+  const filtersBtn   = qs('.btn-filters');
+  const sidebar      = qs('.filters-sidebar');
+
+  
+  function getCardData(card) {
+    return {
+      el:           card,
+      name:         card.querySelector('h4')?.textContent.toLowerCase() || '',
+      price:        parseInt(card.querySelector('.r-price')?.textContent.replace(/[^\d]/g, '') || '0'),
+      rating:       parseFloat(card.querySelector('.r-rating span')?.textContent.replace(/[()]/g, '') || '0'),
+      category:     card.querySelector('.v-tag')?.textContent.trim().toLowerCase() || '',
+      transmission: card.querySelector('.r-specs span:nth-child(1)')?.textContent.trim().toLowerCase() || '',
+      fuel:         card.querySelector('.r-specs span:nth-child(2)')?.textContent.trim().toLowerCase() || '',
+      seats:        card.querySelector('.r-specs span:nth-child(3)')?.textContent.replace(/[^\d]/g, '') || '0',
+      location:     card.querySelector('.r-specs span:nth-child(4)')?.textContent.trim().toLowerCase() || '',
+    };
+  }
+
+  let allCards = cards.map(getCardData);
+
+  function getActiveFilters() {
+    return {
+      search:       (searchInput?.value || '').toLowerCase().trim(),
+      category:     qs('input[name="category"]:checked')?.value || '',
+      transmission: qs('input[name="transmission"]:checked')?.value || '',
+      fuel:         qs('input[name="fuel"]:checked')?.value || '',
+      seats:        qs('input[name="seats"]:checked')?.value || '',
+      minPrice:     parseInt(qs('.price-input:first-child')?.value || '0'),
+      maxPrice:     parseInt(qs('.price-input:last-child')?.value  || '99999'),
+      brand:        qs('.filter-select')?.value || 'All Brands',
+      location:     qs('.rsb-select')?.value   || '',
+    };
+  }
+
+  function applyFilters() {
+    const f = getActiveFilters();
+    let visible = 0;
+
+    allCards.forEach(({ el, name, price, category, transmission, fuel, seats, location }) => {
+      let show = true;
+
+      if (f.search && !name.includes(f.search))         show = false;
+      if (f.category && !category.includes(f.category)) show = false;
+      if (f.transmission && !transmission.includes(f.transmission)) show = false;
+      if (f.fuel && !fuel.includes(f.fuel))             show = false;
+      if (f.seats === '7+' && parseInt(seats) < 7)      show = false;
+      else if (f.seats && f.seats !== '7+' && seats !== f.seats) show = false;
+      if (price < f.minPrice || price > f.maxPrice)     show = false;
+      if (f.brand !== 'All Brands' && !name.includes(f.brand.toLowerCase())) show = false;
+      if (f.location && !location.includes(f.location)) show = false;
+
+      el.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    if (countEl) countEl.textContent = `${visible} car${visible !== 1 ? 's' : ''} found`;
+  }
+
+  function applySort() {
+    if (!sortSelect) return;
+    const val  = sortSelect.value;
+    const data = allCards.filter(c => c.el.style.display !== 'none');
+
+    data.sort((a, b) => {
+      if (val === 'Price: Low to High')  return a.price  - b.price;
+      if (val === 'Price: High to Low')  return b.price  - a.price;
+      if (val === 'Rating')              return b.rating - a.rating;
+      return 0;
+    });
+
+    data.forEach(({ el }) => grid.appendChild(el));
+  }
+
+  const runUpdate = debounce(() => { applyFilters(); applySort(); }, 150);
+
+  qsa('input[name="category"], input[name="transmission"], input[name="fuel"], input[name="seats"]')
+    .forEach(r => r.addEventListener('change', runUpdate));
+  qsa('.price-input').forEach(i => i.addEventListener('input', runUpdate));
+  qs('.filter-select')?.addEventListener('change', runUpdate);
+  qs('.rsb-select')?.addEventListener('change', runUpdate);
+  searchInput?.addEventListener('input', runUpdate);
+  sortSelect?.addEventListener('change', runUpdate);
+
+  
+  clearAllLink?.addEventListener('click', e => {
+    e.preventDefault();
+    qsa('input[type="radio"]').forEach(r => r.checked = false);
+    qsa('.price-input').forEach(i => i.value = '');
+    if (searchInput) searchInput.value = '';
+    if (qs('.filter-select')) qs('.filter-select').selectedIndex = 0;
+    if (qs('.rsb-select'))    qs('.rsb-select').selectedIndex = 0;
+    runUpdate();
+    showToast('Filters cleared.', 'info', 2000);
+  });
+
+  
+  viewBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      viewBtns.forEach(b => b.classList.remove('view-btn-active'));
+      btn.classList.add('view-btn-active');
+      const isList = btn.querySelector('.fa-list') !== null;
+      grid.classList.toggle('list-view', isList);
+    });
+  });
+
+
+  filtersBtn?.addEventListener('click', () => {
+    sidebar?.classList.toggle('sidebar-open');
+  });
+
+  // Favourite toggle on rental cards
+  initFavouriteToggle('.rental-card');
+
+  // Initial render
+  applyFilters();
+}
+
+
+function initFavouriteToggle(cardSelector = '.vehicle-card') {
+  qsa(`${cardSelector} .v-fav`).forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const icon = btn.querySelector('i');
+      if (!icon) return;
+      const active = icon.classList.toggle('fa-solid');
+      icon.classList.toggle('fa-regular', !active);
+      btn.classList.toggle('v-fav-active', active);
+      showToast(active ? 'Added to favourites!' : 'Removed from favourites.', 'info', 2000);
     });
   });
 }
 
 
-function initCancelBooking() {
-  on(document, 'click', e => {
-    if (!e.target.closest('.btn-cancel-booking')) return;
-    const btn  = e.target.closest('.btn-cancel-booking');
-    const card = btn.closest('.booking-card');
-
-    if (!confirm('Are you sure you want to cancel this booking? This action cannot be undone.')) return;
-
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Cancelling…';
-
-    setTimeout(() => {
-      card.style.transition = 'opacity 0.4s, transform 0.4s';
-      card.style.opacity    = '0';
-      card.style.transform  = 'scale(0.97)';
-      setTimeout(() => {
-        card.remove();
-        showToast('Booking cancelled successfully.', 'success');
-
-        // Update tab counts
-        updateBookingTabCounts();
-      }, 400);
-    }, 900);
-  });
-}
-
-function updateBookingTabCounts() {
-  const remaining = $$('.booking-card').length;
-  const allTab    = $('.booking-tab');
-  if (allTab) {
-    const countSpan = allTab.querySelector('.tab-count');
-    if (countSpan) countSpan.textContent = remaining;
-  }
-}
-
-function initFavourites() {
-  on(document, 'click', e => {
-    const btn = e.target.closest('.v-fav');
-    if (!btn) return;
-    const icon = btn.querySelector('i');
-    if (!icon) return;
-
-    if (icon.classList.contains('fa-regular')) {
-      icon.classList.replace('fa-regular', 'fa-solid');
-      btn.style.color = '#ef4444';
-      showToast('Added to favourites!', 'success');
-    } else {
-      icon.classList.replace('fa-solid', 'fa-regular');
-      btn.style.color = '';
-      showToast('Removed from favourites.', 'info');
-    }
-  });
-}
-
-
-function initTestimonialSlider() {
-  const card = $('.testimonial-card');
-  if (!card) return;
+function initTestimonialCarousel() {
+  const card    = qs('.testimonial-card');
+  const prevBtn = qs('.testimonial-nav .nav-btn:first-child');
+  const nextBtn = qs('.testimonial-nav .nav-btn:last-child');
+  if (!card || !prevBtn || !nextBtn) return;
 
   const testimonials = [
     {
-      text: '"Exceptional service from start to finish! The booking process was seamless, and the vehicle was in pristine condition. I\'ve used this service for both business trips and family vacations, and they never disappoint."',
-      name: 'Philomena Nkrumah', role: 'Business Executive', company: 'Tech Innovations Inc.', initial: 'P', stars: 5,
+      text:    '"Exceptional service from start to finish! The booking process was seamless, and the vehicle was in pristine condition. I\'ve used this service for both business trips and family vacations, and they never disappoint."',
+      name:    'Philomena Nkrumah',
+      role:    'Business Executive',
+      company: 'Tech Innovations Inc.',
+      avatar:  'P',
+      stars:   5,
     },
     {
-      text: '"Mashin Centre gave me the smoothest car rental experience I\'ve ever had in Ghana. The vehicles are clean, modern, and the staff are incredibly helpful. Highly recommend!"',
-      name: 'Kwame Asante', role: 'Software Engineer', company: 'AfroTech Solutions', initial: 'K', stars: 5,
+      text:    '"Great selection of vehicles and very professional staff. Got a Toyota Camry for a road trip to Kumasi — smooth experience throughout. Will definitely rent again!"',
+      name:    'Kwame Asante',
+      role:    'Software Engineer',
+      company: 'Hubtel',
+      avatar:  'K',
+      stars:   5,
     },
     {
-      text: '"Very reliable service. I rented an SUV for a road trip and it was perfect. The pickup was hassle-free and the price was very competitive. Will definitely book again."',
-      name: 'Abena Mensah', role: 'Marketing Manager', company: 'GhanaCo Ltd.', initial: 'A', stars: 4,
+      text:    '"The online booking system is incredibly easy to use. Prices are transparent and the cars are always clean and well-maintained. Highly recommend Mashin Centre."',
+      name:    'Abena Mensah',
+      role:    'Marketing Manager',
+      company: 'Melcom Ghana',
+      avatar:  'A',
+      stars:   4,
     },
   ];
 
   let current = 0;
 
-  const render = () => {
-    const t = testimonials[current];
+  function render(idx) {
+    const t = testimonials[idx];
     const textEl    = card.querySelector('.testimonial-text');
     const nameEl    = card.querySelector('.author-name');
     const roleEl    = card.querySelector('.author-role');
@@ -580,463 +548,439 @@ function initTestimonialSlider() {
     const avatarEl  = card.querySelector('.author-avatar');
     const starsEl   = card.querySelector('.testimonial-stars');
 
-    if (textEl)    textEl.textContent = t.text;
-    if (nameEl)    nameEl.textContent = t.name;
-    if (roleEl)    roleEl.textContent = t.role;
-    if (companyEl) companyEl.textContent = t.company;
-    if (avatarEl)  avatarEl.textContent = t.initial;
-
-    if (starsEl) {
-      starsEl.innerHTML = Array.from({ length: 5 }, (_, i) =>
-        `<i class="${i < t.stars ? 'fa-solid' : 'fa-regular'} fa-star"></i>`
-      ).join('');
-    }
-  };
-
-  const slide = dir => {
     card.style.opacity = '0';
-    card.style.transform = 'translateY(6px)';
+    card.style.transform = 'translateY(8px)';
+
     setTimeout(() => {
-      current = (current + dir + testimonials.length) % testimonials.length;
-      render();
-      card.style.opacity = '1';
+      if (textEl)    textEl.textContent    = t.text;
+      if (nameEl)    nameEl.textContent    = t.name;
+      if (roleEl)    roleEl.textContent    = t.role;
+      if (companyEl) companyEl.textContent = t.company;
+      if (avatarEl)  avatarEl.textContent  = t.avatar;
+      if (starsEl) {
+        starsEl.innerHTML = Array.from({ length: 5 }, (_, i) =>
+          `<i class="fa-${i < t.stars ? 'solid' : 'regular'} fa-star"></i>`
+        ).join('');
+      }
+      card.style.opacity   = '1';
       card.style.transform = 'translateY(0)';
-    }, 200);
-  };
+    }, 250);
+  }
 
-  card.style.transition = 'opacity 0.2s, transform 0.2s';
+  card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
 
-  const prev = card.querySelector('.nav-btn:first-of-type');
-  const next = card.querySelector('.nav-btn:last-of-type');
-  on(prev, 'click', () => slide(-1));
-  on(next, 'click', () => slide(1));
+  prevBtn.addEventListener('click', () => {
+    current = (current - 1 + testimonials.length) % testimonials.length;
+    render(current);
+  });
 
-  // Auto-advance every 6 seconds
-  let autoplay = setInterval(() => slide(1), 6000);
-  on(card, 'mouseenter', () => clearInterval(autoplay));
-  on(card, 'mouseleave', () => { autoplay = setInterval(() => slide(1), 6000); });
+  nextBtn.addEventListener('click', () => {
+    current = (current + 1) % testimonials.length;
+    render(current);
+  });
+
+  let autoTimer = setInterval(() => {
+    current = (current + 1) % testimonials.length;
+    render(current);
+  }, 6000);
+
+  card.addEventListener('mouseenter', () => clearInterval(autoTimer));
+  card.addEventListener('mouseleave', () => {
+    autoTimer = setInterval(() => {
+      current = (current + 1) % testimonials.length;
+      render(current);
+    }, 6000);
+  });
 }
+
+
 
 function initStatsCounter() {
-  const counters = $$('.stats-num, .about-stat-num');
-  if (!counters.length) return;
+  const statNums = qsa('.stats-num');
+  if (!statNums.length) return;
 
-  const animate = el => {
-    if (el.dataset.animated) return;
-    el.dataset.animated = '1';
-
-    const raw   = el.textContent.trim();
-    const num   = parseFloat(raw.replace(/[^0-9.]/g, ''));
-    const suffix= raw.replace(/[0-9.]/g, '');
+  function animateNumber(el) {
+    const raw  = el.textContent.trim();
+    const num  = parseFloat(raw.replace(/[^0-9.]/g, ''));
+    const suffix = raw.replace(/[0-9.]/g, '');
     if (isNaN(num)) return;
 
-    const duration = 1600;
-    const step     = 16;
-    const steps    = duration / step;
-    let count      = 0;
+    const duration = 1500;
+    const start    = performance.now();
 
-    const timer = setInterval(() => {
-      count++;
-      const val = num * (count / steps);
-      el.textContent = (Number.isInteger(num) ? Math.round(val) : val.toFixed(1)) + suffix;
-      if (count >= steps) {
-        el.textContent = raw;
-        clearInterval(timer);
-      }
-    }, step);
-  };
+    function step(now) {
+      const t       = Math.min((now - start) / duration, 1);
+      const eased   = 1 - Math.pow(1 - t, 3);
+      const current = +(num * eased).toFixed(num < 10 ? 1 : 0);
+      el.textContent = current + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    }
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => { if (entry.isIntersecting) animate(entry.target); });
-  }, { threshold: 0.5 });
-
-  counters.forEach(el => observer.observe(el));
-}
-
-
-function initScrollReveal() {
-  const targets = $$(
-    '.feature-card, .vehicle-card, .rental-card, .booking-card, ' +
-    '.about-service-card, .mvg-card, .info-card, .faq-item, ' +
-    '.testimonial-card, .timeline-item'
-  );
-
-  if (!targets.length || !('IntersectionObserver' in window)) return;
-
-  targets.forEach((el, i) => {
-    el.style.opacity   = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition= `opacity 0.5s ease ${(i % 4) * 0.08}s, transform 0.5s ease ${(i % 4) * 0.08}s`;
-  });
+    requestAnimationFrame(step);
+  }
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity   = '1';
-        entry.target.style.transform = 'translateY(0)';
+        animateNumber(entry.target);
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.5 });
 
-  targets.forEach(el => observer.observe(el));
+  statNums.forEach(el => observer.observe(el));
 }
 
 
-function initHeaderSearch() {
-  const input = $('input[type="search"]', $('header'));
-  if (!input) return;
+function initHeaderScroll() {
+  const header = qs('header');
+  if (!header) return;
 
-  on(input, 'keydown', e => {
-    if (e.key === 'Escape') { input.value = ''; input.blur(); }
-  });
+  const handler = debounce(() => {
+    header.classList.toggle('header-scrolled', window.scrollY > 60);
+  }, 50);
+
+  window.addEventListener('scroll', handler, { passive: true });
+  handler();
 }
 
 
-function initRentalsDateRange() {
-  const inputs = $$('.rsb-input[type="date"]');
-  if (inputs.length < 2) return;
+function initScrollReveal() {
+  const targets = qsa('.feature-card, .vehicle-card, .rental-card, .info-card, .faq-item, .stat-item');
 
-  const today = new Date().toISOString().split('T')[0];
-  inputs.forEach(i => { i.min = today; });
+  if (!targets.length || !('IntersectionObserver' in window)) return;
 
-  on(inputs[0], 'change', () => {
-    inputs[1].min = inputs[0].value || today;
-    if (inputs[1].value && inputs[1].value < inputs[0].value) {
-      inputs[1].value = inputs[0].value;
-    }
-  });
-}
-
-
-let toastContainer = null;
-
-function showToast(message, type = 'info', duration = 4000) {
-  if (!toastContainer) {
-    toastContainer = document.createElement('div');
-    toastContainer.id = 'toast-container';
-    toastContainer.style.cssText = `
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      pointer-events: none;
-    `;
-    document.body.appendChild(toastContainer);
-  }
-
-  const icons = {
-    success: 'fa-circle-check',
-    error:   'fa-circle-xmark',
-    info:    'fa-circle-info',
-    warning: 'fa-triangle-exclamation',
-  };
-
-  const colors = {
-    success: { bg: '#f0fdf4', border: '#86efac', text: '#166534', icon: '#16a34a' },
-    error:   { bg: '#fef2f2', border: '#fca5a5', text: '#991b1b', icon: '#dc2626' },
-    info:    { bg: '#eff6ff', border: '#bfdbfe', text: '#1e40af', icon: '#2563eb' },
-    warning: { bg: '#fffbeb', border: '#fde68a', text: '#92400e', icon: '#d97706' },
-  };
-
-  const c = colors[type] || colors.info;
-  const toast = document.createElement('div');
-  toast.style.cssText = `
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: ${c.bg};
-    border: 1px solid ${c.border};
-    color: ${c.text};
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
-    pointer-events: auto;
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.3s, transform 0.3s;
-    max-width: min(420px, 90vw);
-    text-align: left;
-    font-family: 'Inter', system-ui, sans-serif;
-  `;
-  toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info}" style="color:${c.icon};font-size:1rem;flex-shrink:0;"></i><span>${message}</span>`;
-
-  toastContainer.appendChild(toast);
-
-  // Animate in
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      toast.style.opacity   = '1';
-      toast.style.transform = 'translateY(0)';
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
     });
-  });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-  const dismiss = () => {
-    toast.style.opacity   = '0';
-    toast.style.transform = 'translateY(10px)';
-    setTimeout(() => toast.remove(), 300);
-  };
-
-  on(toast, 'click', dismiss);
-  setTimeout(dismiss, duration);
-}
-
-function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-
-function initBookNowButtons() {
-  on(document, 'click', e => {
-    const btn = e.target.closest('.btn-book');
-    if (!btn) return;
-    const card = btn.closest('.vehicle-card, .rental-card');
-    if (!card) return;
-
-    const name  = card.querySelector('h4')?.textContent.trim() || 'Vehicle';
-    const price = card.querySelector('.v-price, .r-price')?.textContent.trim() || '';
-
-    showToast(`Booking ${name}… Redirecting to booking page.`, 'info', 2500);
-  });
-}
-
-function initActiveNav() {
-  const links    = $$('.main-nav a');
-  const current  = window.location.pathname.split('/').pop() || 'index.html';
-
-  links.forEach(link => {
-    const href = link.getAttribute('href') || '';
-    if (href === current || (current === '' && href === 'index.html')) {
-      link.classList.add('active');
-    }
-  });
-}
-
-
-function initSmoothScroll() {
-  on(document, 'click', e => {
-    const link = e.target.closest('a[href^="#"]');
-    if (!link) return;
-    const id  = link.getAttribute('href');
-    if (id === '#') return;
-    const target = $(id);
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  targets.forEach((el, i) => {
+    el.classList.add('reveal-ready');
+    el.style.transitionDelay = `${(i % 4) * 80}ms`;
+    observer.observe(el);
   });
 }
 
 
 document.addEventListener('DOMContentLoaded', () => {
-
-  
   initMobileNav();
-  initStickyHeader();
-  initBackToTop();
-  initHeaderSearch();
-  initActiveNav();
-  initSmoothScroll();
-  initScrollReveal();
+  initScrollTop();
+  initSearchBox();
+  initLoginModal();
+  initContactForm();
+  initFaqAccordion();
+  initHeroBookingForm();
+  initRentalsPage();
+  initFavouriteToggle('.vehicle-card');
+  initTestimonialCarousel();
   initStatsCounter();
-
-
-  if ($('#login-modal') || $('#register-modal')) initAuthModals();
-  if ($('#contact-form'))   initContactForm();
-  if ($('#location'))       initBookingForm();
-  if ($('.booking-tab'))    initBookingTabs();
-  if ($('.btn-cancel-booking')) initCancelBooking();
-  if ($('.v-fav'))          initFavourites();
-  if ($('.testimonial-card')) initTestimonialSlider();
-  if ($('.rentals-search-bar')) {
-    initRentalsSearch();
-    initRentalsDateRange();
-  }
-  if ($('#rentals-filters'))  initFilterSidebarToggle();
-  if ($('.rentals-cars-grid')) {
-    initRentalsFilters();
-    initViewToggle();
-  }
-  if ($('.btn-book')) initBookNowButtons();
-
+  initHeaderScroll();
+  initScrollReveal();
 });
 
 
-document.addEventListener('DOMContentLoaded', () => {
-
-  
-
-  
-  const cards      = Array.from(document.querySelectorAll('.vehicle-card'));
-  const noResults  = document.getElementById('noResults');
-  const countLabel = document.getElementById('resultsCount');
-  const grid       = document.getElementById('vehiclesGrid');
-  const pills      = document.querySelectorAll('.bk-pill');
-  const fLocEl     = document.getElementById('f-location');
-  const fTypeEl    = document.getElementById('f-type');
-  const fPickup    = document.getElementById('f-pickup');
-  const fReturn    = document.getElementById('f-return');
-  const searchBtn  = document.getElementById('searchBtn');
-  const resetBtn   = document.getElementById('resetBtn');
-  const sortBy     = document.getElementById('sortBy');
-
-  let activeType = 'all';
-
-  
-  const today = new Date().toISOString().split('T')[0];
-  fPickup.min = today;
-  fReturn.min = today;
-  fPickup.addEventListener('change', () => {
-    fReturn.min = fPickup.value || today;
-    if (fReturn.value && fReturn.value < fPickup.value) fReturn.value = fPickup.value;
+'use strict';
+ 
+/* ─── Utility ─────────────────────────────── */
+const qs  = (sel, ctx = document) => ctx.querySelector(sel);
+const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+ 
+function debounce(fn, ms = 200) {
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+}
+ 
+function showToast(msg, type = 'info', duration = 3000) {
+  let container = qs('#toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    container.setAttribute('aria-live', 'polite');
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `<span>${msg}</span>`;
+  container.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('toast-show'));
+  setTimeout(() => {
+    toast.classList.remove('toast-show');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+  }, duration);
+}
+ 
+/* ─── Mobile Nav ──────────────────────────── */
+function initMobileNav() {
+  const toggle = qs('.nav-toggle');
+  const nav    = qs('.main-nav');
+  if (!toggle || !nav) return;
+ 
+  toggle.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    nav.classList.toggle('nav-open');
+    const icon = toggle.querySelector('i');
+    if (icon) { icon.classList.toggle('fa-bars', expanded); icon.classList.toggle('fa-xmark', !expanded); }
   });
+ 
+  document.addEventListener('click', e => {
+    if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+      nav.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+ 
 
+function initScrollTop() {
+  const arrow = qs('.top-arrow');
+  if (!arrow) return;
+  const fn = () => arrow.classList.toggle('visible', window.scrollY > 300);
+  window.addEventListener('scroll', fn, { passive: true });
+  fn();
+}
+ 
 
-  function updateCount(n) {
-    countLabel.textContent = `Showing ${n} vehicle${n !== 1 ? 's' : ''}`;
+function initHeaderScroll() {
+  const header = qs('header');
+  if (!header) return;
+  window.addEventListener('scroll', debounce(() => {
+    header.classList.toggle('header-scrolled', window.scrollY > 60);
+  }, 50), { passive: true });
+}
+ 
+function initBookingPage() {
+  const grid      = qs('#vehiclesGrid');
+  const noResults = qs('#noResults');
+  const countEl   = qs('#resultsCount');
+  const resetBtn  = qs('#resetBtn');
+  const sortSel   = qs('#sortBy');
+  const pills     = qsa('.bk-pill', qs('#typePills'));
+ 
+  
+  const locSel    = qs('#f-location');
+  const pickupIn  = qs('#f-pickup');
+  const returnIn  = qs('#f-return');
+  const typeSel   = qs('#f-type');
+ 
+  if (!grid) return;
+ 
+  
+  function getCards() {
+    return qsa('.vehicle-card', grid).map(el => ({
+      el,
+      type:     el.dataset.type   || '',
+      price:    parseInt(el.dataset.price  || '0'),
+      rating:   parseFloat(el.dataset.rating || '0'),
+      location: el.dataset.location || '',
+    }));
   }
-
-  function applyFilters() {
-    const loc = fLocEl.value.toLowerCase();
-    let visible = 0;
-
-    cards.forEach(card => {
-      const typeMatch = activeType === 'all' || card.dataset.type === activeType;
-      const locMatch  = !loc || card.dataset.location === loc;
-      const show      = typeMatch && locMatch;
-      card.style.display = show ? '' : 'none';
-      if (show) visible++;
+ 
+  
+  let activeType = 'all';
+ 
+  
+  let currentSort = 'default';
+ 
+  
+  function prefillFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('location') && locSel)   locSel.value   = params.get('location');
+    if (params.get('pickup')   && pickupIn) pickupIn.value  = params.get('pickup');
+    if (params.get('return')   && returnIn) returnIn.value  = params.get('return');
+  }
+ 
+  
+  function initDates() {
+    const today = new Date().toISOString().split('T')[0];
+    if (pickupIn) {
+      pickupIn.setAttribute('min', today);
+      pickupIn.addEventListener('change', () => {
+        if (returnIn) {
+          returnIn.setAttribute('min', pickupIn.value || today);
+          if (returnIn.value && returnIn.value < pickupIn.value) returnIn.value = pickupIn.value;
+        }
+        runUpdate();
+      });
+    }
+    if (returnIn) returnIn.addEventListener('change', runUpdate);
+  }
+ 
+  
+  function applyFilters(cards) {
+    const location = locSel?.value  || '';
+    const type     = typeSel?.value || '';
+ 
+    return cards.filter(({ el, type: cardType, location: cardLoc }) => {
+      if (activeType !== 'all' && cardType !== activeType)    return false;
+      if (type && type !== cardType)                          return false;
+      if (location && cardLoc !== location)                   return false;
+      return true;
     });
-
-    updateCount(visible);
-    noResults.style.display = visible === 0 ? 'block' : 'none';
   }
-
+ 
+  
+  function applySort(cards) {
+    const sorted = [...cards];
+    if (currentSort === 'price-asc')  sorted.sort((a, b) => a.price  - b.price);
+    if (currentSort === 'price-desc') sorted.sort((a, b) => b.price  - a.price);
+    if (currentSort === 'rating')     sorted.sort((a, b) => b.rating - a.rating);
+    return sorted;
+  }
+ 
+  
+  function render() {
+    const allCards = getCards();
+    const filtered = applyFilters(allCards);
+    const sorted   = applySort(filtered);
+ 
+    
+    allCards.forEach(({ el }) => { el.style.display = 'none'; });
+    sorted.forEach(({ el }) => { el.style.display = ''; grid.appendChild(el); });
+ 
+    
+    const n = sorted.length;
+    if (countEl) countEl.textContent = `Showing ${n} vehicle${n !== 1 ? 's' : ''}`;
+ 
+  
+    if (noResults) noResults.style.display = n === 0 ? 'flex' : 'none';
+  }
+ 
+  const runUpdate = debounce(render, 120);
+ 
   
   pills.forEach(pill => {
     pill.addEventListener('click', () => {
       pills.forEach(p => p.classList.remove('bk-pill-active'));
       pill.classList.add('bk-pill-active');
-      activeType = pill.dataset.type;
-      // also sync dropdown
-      if (fTypeEl) fTypeEl.value = activeType === 'all' ? '' : activeType;
-      applyFilters();
+      activeType = pill.dataset.type || 'all';
+      
+      if (typeSel) typeSel.value = activeType === 'all' ? '' : activeType;
+      runUpdate();
     });
   });
-
+ 
   
-  if (searchBtn) {
-    searchBtn.addEventListener('click', () => {
-      // sync type pill with dropdown
-      const chosen = fTypeEl.value;
-      activeType = chosen || 'all';
-      pills.forEach(p => p.classList.toggle('bk-pill-active', p.dataset.type === activeType));
-      applyFilters();
-    });
-  }
-
+  sortSel?.addEventListener('change', () => {
+    currentSort = sortSel.value;
+    runUpdate();
+  });
+ 
   
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => {
-      fLocEl.value  = '';
-      fTypeEl.value = '';
-      fPickup.value = '';
-      fReturn.value = '';
-      activeType = 'all';
-      pills.forEach(p => p.classList.toggle('bk-pill-active', p.dataset.type === 'all'));
-      cards.forEach(c => (c.style.display = ''));
-      updateCount(cards.length);
-      noResults.style.display = 'none';
-    });
-  }
-
+  locSel?.addEventListener('change', runUpdate);
+  typeSel?.addEventListener('change', () => {
+    const val = typeSel.value;
+    activeType = val || 'all';
+    
+    pills.forEach(p => p.classList.toggle('bk-pill-active', p.dataset.type === activeType));
+    runUpdate();
+  });
+ 
   
-  if (sortBy) {
-    sortBy.addEventListener('change', () => {
-      const val = sortBy.value;
-      const sorted = [...cards].sort((a, b) => {
-        if (val === 'price-asc')  return +a.dataset.price  - +b.dataset.price;
-        if (val === 'price-desc') return +b.dataset.price  - +a.dataset.price;
-        if (val === 'rating')     return +b.dataset.rating - +a.dataset.rating;
-        return 0;
-      });
-      sorted.forEach(c => grid.appendChild(c));
-    });
-  }
-
+  resetBtn?.addEventListener('click', () => {
+    if (locSel)   locSel.value   = '';
+    if (pickupIn) pickupIn.value = '';
+    if (returnIn) returnIn.value = '';
+    if (typeSel)  typeSel.value  = '';
+    if (sortSel)  sortSel.value  = 'default';
+    currentSort = 'default';
+    activeType  = 'all';
+    pills.forEach(p => p.classList.toggle('bk-pill-active', p.dataset.type === 'all'));
+    runUpdate();
+  });
+ 
   
-  document.querySelectorAll('.v-fav').forEach(fav => {
-    fav.addEventListener('click', () => {
-      const icon = fav.querySelector('i');
-      const isActive = fav.classList.toggle('active');
-      icon.classList.toggle('fa-solid',  isActive);
-      icon.classList.toggle('fa-regular', !isActive);
-      fav.style.color = isActive ? '#ef4444' : '';
+  qsa('.v-fav').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const icon = btn.querySelector('i');
+      if (!icon) return;
+      const active = icon.classList.toggle('fa-solid');
+      icon.classList.toggle('fa-regular', !active);
+      btn.classList.toggle('v-fav-active', active);
     });
   });
-
-
-  const overlay    = document.getElementById('modalOverlay');
-  const modalClose = document.getElementById('modalClose');
-  const modalCar   = document.getElementById('modalCarName');
-  const modalSum   = document.getElementById('modalSummary');
-
+ 
+  /* ── Init ── */
+  prefillFromURL();
+  initDates();
+  render();
+}
+ 
+function initBookingModal() {
+  const overlay   = qs('#modalOverlay');
+  const closeBtn  = qs('#modalClose');
+  const carNameEl = qs('#modalCarName');
+  const summaryEl = qs('#modalSummary');
+ 
+  if (!overlay) return;
+ 
   function openModal(carName, pricePerDay) {
-    modalCar.textContent = carName;
-
-    const p = fPickup.value ? new Date(fPickup.value) : null;
-    const r = fReturn.value ? new Date(fReturn.value) : null;
-    let html = '';
-
-    if (p && r && r >= p) {
-      const days  = Math.max(1, Math.round((r - p) / 86400000));
-      const total = (days * +pricePerDay).toLocaleString();
-      html = `
-        <div class="bk-summary-row"><span>Pickup</span><span>${fmt(p)}</span></div>
-        <div class="bk-summary-row"><span>Return</span><span>${fmt(r)}</span></div>
-        <div class="bk-summary-row"><span>Duration</span><span>${days} day${days !== 1 ? 's' : ''}</span></div>
-        <div class="bk-summary-row"><span>Estimated Total</span>
-          <span style="color:#2563eb;font-weight:800;">₵${total}</span></div>`;
-    } else {
-      html = `
-        <div class="bk-summary-row"><span>Price per day</span>
-          <span style="color:#2563eb;font-weight:800;">₵${Number(pricePerDay).toLocaleString()}</span></div>
-        <div class="bk-summary-row"><span>Dates</span><span style="color:#9ca3af;">Not selected yet</span></div>`;
-    }
-
-    modalSum.innerHTML = html;
-    overlay.classList.add('overlay-active');
-    document.body.classList.add('modal-open');
-  }
-
-  function closeModal() {
-    overlay.classList.remove('overlay-active');
-    document.body.classList.remove('modal-open');
-  }
-
-  if (modalClose) modalClose.addEventListener('click', closeModal);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-  document.querySelectorAll('.btn-book').forEach(btn => {
-    btn.addEventListener('click', () => openModal(btn.dataset.car, btn.dataset.price));
-  });
-
+    if (carNameEl) carNameEl.textContent = carName;
+ 
   
-  function fmt(d) {
+    if (summaryEl) {
+      const pickup  = qs('#f-pickup')?.value;
+      const ret     = qs('#f-return')?.value;
+      let days = 1;
+ 
+      if (pickup && ret) {
+        const ms  = new Date(ret) - new Date(pickup);
+        days = Math.max(1, Math.round(ms / 86_400_000));
+      }
+ 
+      const total = pricePerDay * days;
+      summaryEl.innerHTML = `
+        <div class="bk-summary-row">
+          <span><i class="fa-solid fa-car"></i> ${carName}</span>
+        </div>
+        ${pickup ? `<div class="bk-summary-row"><span><i class="fa-solid fa-calendar"></i> Pickup: ${formatDate(pickup)}</span></div>` : ''}
+        ${ret    ? `<div class="bk-summary-row"><span><i class="fa-solid fa-calendar-check"></i> Return: ${formatDate(ret)}</span></div>` : ''}
+        <div class="bk-summary-row bk-summary-total">
+          <span>Estimated total (${days} day${days > 1 ? 's' : ''})</span>
+          <span><i class="fa-solid fa-cedi-sign"></i>${total.toLocaleString()}</span>
+        </div>
+      `;
+    }
+ 
+    overlay.classList.add('modal-active');
+    document.body.style.overflow = 'hidden';
+  }
+ 
+  function closeModal() {
+    overlay.classList.remove('modal-active');
+    document.body.style.overflow = '';
+  }
+ 
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr + 'T00:00:00');
     return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   }
-
+ 
   
-  updateCount(cards.length);
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.btn-book');
+    if (!btn) return;
+    const carName  = btn.dataset.car   || 'Selected Car';
+    const price    = parseInt(btn.dataset.price || '0');
+    openModal(carName, price);
+  });
+ 
+  closeBtn?.addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+}
+ 
+document.addEventListener('DOMContentLoaded', () => {
+  initMobileNav();
+  initScrollTop();
+  initHeaderScroll();
+  initBookingPage();
+  initBookingModal();
 });
-
-

@@ -2989,6 +2989,250 @@ header {
 }
 .modal-note i { color: #059669; }
 
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+ 
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  background: #1e293b;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .3s ease, transform .3s ease;
+  pointer-events: auto;
+  max-width: 340px;
+}
+ 
+.toast.toast-show   { opacity: 1; transform: translateY(0); }
+.toast.toast-success { background: #16a34a; }
+.toast.toast-warning { background: #d97706; }
+.toast.toast-error   { background: #dc2626; }
+.toast.toast-info    { background: #2563eb; }
+ 
+/* ── Scroll-to-top arrow ────────────────────── */
+.top-arrow {
+  position: fixed;
+  bottom: 28px;
+  left: 24px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s, transform .3s;
+  transform: translateY(10px);
+}
+ 
+.top-arrow.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+ 
+.top-arrow a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #fff;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(37,99,235,.35);
+  transition: background .2s, transform .2s;
+  text-decoration: none;
+}
+ 
+.top-arrow a:hover { background: #1d4ed8; transform: translateY(-2px); }
+ 
+/* ── Header scrolled ────────────────────────── */
+header.header-scrolled {
+  box-shadow: 0 2px 16px rgba(0,0,0,.12);
+  background: rgba(255,255,255,.97);
+  backdrop-filter: blur(8px);
+}
+ 
+/* ── Mobile nav open ────────────────────────── */
+.main-nav.nav-open {
+  display: flex !important;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  padding: 16px 24px;
+  z-index: 200;
+  animation: navSlideDown .2s ease;
+}
+ 
+@keyframes navSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+ 
+
+.search-box.search-open input { width: 180px; opacity: 1; }
+.search-box input {
+  width: 0;
+  opacity: 0;
+  transition: width .3s ease, opacity .3s ease;
+  overflow: hidden;
+}
+ 
+
+.field-error {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220,38,38,.15) !important;
+}
+ 
+.error-msg {
+  display: block;
+  color: #dc2626;
+  font-size: 0.78rem;
+  margin-top: 4px;
+}
+ 
+.char-counter {
+  display: block;
+  text-align: right;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+ 
+
+.modal-overlay.modal-active {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+}
+ 
+.modal-overlay {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .25s ease;
+}
+ 
+
+.modal-overlay.active {
+  display: flex !important;
+  opacity: 1;
+  pointer-events: auto;
+}
+ 
+
+.bk-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 0.88rem;
+  border-bottom: 1px solid #f1f5f9;
+  gap: 12px;
+}
+ 
+.bk-summary-row i { margin-right: 6px; color: #2563eb; }
+ 
+.bk-summary-total {
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-bottom: none;
+  padding-top: 12px;
+  color: #1e293b;
+}
+ 
+
+.v-fav-active i { color: #ef4444; }
+.v-fav { cursor: pointer; transition: transform .2s; }
+.v-fav:hover { transform: scale(1.2); }
+ 
+
+.reveal-ready {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+ 
+.reveal-ready.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+ 
+
+.rentals-cars-grid.list-view {
+  grid-template-columns: 1fr !important;
+}
+ 
+.rentals-cars-grid.list-view .rental-card {
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+}
+ 
+.rentals-cars-grid.list-view .rental-img-wrap {
+  width: 260px;
+  flex-shrink: 0;
+  border-radius: 12px 0 0 12px;
+}
+ 
+.rentals-cars-grid.list-view .rental-img-wrap img {
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px 0 0 12px;
+}
+ 
+
+@media (max-width: 900px) {
+  .filters-sidebar {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 800;
+    background: #fff;
+    overflow-y: auto;
+    padding: 24px;
+    animation: navSlideDown .2s ease;
+  }
+ 
+  .filters-sidebar.sidebar-open { display: block; }
+}
+ 
+
+.bk-no-results {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 24px;
+  text-align: center;
+  color: #64748b;
+}
+ 
+.bk-no-results i { font-size: 2.5rem; color: #cbd5e1; }
+
 
 /* ============================================
    ANIMATIONS
