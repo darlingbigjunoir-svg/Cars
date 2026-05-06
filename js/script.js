@@ -1,15 +1,7 @@
-/* ============================================================
-   MASHIN CENTRE — script.js
-   Covers: All pages (index, about, rentals, booking, contact, login)
-   ============================================================ */
 
-'use strict';
 
-/* ============================================================
-   UTILITY HELPERS
-   ============================================================ */
 
-/** Select one element */
+
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 
 /** Select multiple elements */
@@ -24,11 +16,7 @@ const debounce = (fn, ms = 300) => {
   return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
 };
 
-/* ============================================================
-   1. MOBILE NAV (hamburger)
-      – Slides in/out
-      – Closes on outside click / Escape / link click
-   ============================================================ */
+
 function initMobileNav() {
   const toggle = $('.nav-toggle');
   const nav    = $('#main-nav');
@@ -52,7 +40,7 @@ function initMobileNav() {
     nav.classList.contains('nav-open') ? close() : open()
   );
 
-  // Close on nav link click
+  
   $$('a', nav).forEach(link => on(link, 'click', close));
 
   // Close on outside click
@@ -68,10 +56,7 @@ function initMobileNav() {
   });
 }
 
-/* ============================================================
-   2. STICKY HEADER SHADOW
-      – Adds a subtle shadow when page is scrolled
-   ============================================================ */
+
 function initStickyHeader() {
   const header = $('header');
   if (!header) return;
@@ -86,10 +71,7 @@ function initStickyHeader() {
   update();
 }
 
-/* ============================================================
-   3. BACK-TO-TOP BUTTON
-      – Shows after scrolling 300 px
-   ============================================================ */
+
 function initBackToTop() {
   const btn = $('.top-arrow');
   if (!btn) return;
@@ -104,20 +86,13 @@ function initBackToTop() {
   update();
 }
 
-/* ============================================================
-   4. AUTH MODALS  (login.html)
-      – Open / close login & register modals
-      – Toggle password visibility
-      – Switch between login ↔ register
-      – Basic form validation
-   ============================================================ */
 function initAuthModals() {
   const overlay      = $('#modal-overlay');
   const loginModal   = $('#login-modal');
   const registerModal= $('#register-modal');
   if (!overlay) return;
 
-  /* ---- open/close helpers ---- */
+  
   const showLogin = () => {
     overlay.classList.add('overlay-active');
     loginModal.classList.remove('modal-hidden');
@@ -139,22 +114,21 @@ function initAuthModals() {
     document.body.classList.remove('modal-open');
   };
 
-  /* ---- triggers ---- */
+  
   on($('#open-login-btn'), 'click', e => { e.preventDefault(); showLogin(); });
   on($('#close-login'),    'click', closeAll);
   on($('#close-register'), 'click', closeAll);
   on($('#go-to-register'), 'click', e => { e.preventDefault(); showRegister(); });
   on($('#go-to-login'),    'click', e => { e.preventDefault(); showLogin(); });
 
-  // Close on overlay backdrop click
+  
   on(overlay, 'click', e => { if (e.target === overlay) closeAll(); });
 
-  // Close on Escape
   on(document, 'keydown', e => {
     if (e.key === 'Escape') closeAll();
   });
 
-  /* ---- password toggle ---- */
+  
   $$('.toggle-pw').forEach(btn => {
     on(btn, 'click', () => {
       const targetId = btn.dataset.pwTarget;
@@ -169,7 +143,7 @@ function initAuthModals() {
     });
   });
 
-  /* ---- login form submit ---- */
+  
   const loginForm = $('#login-form');
   on(loginForm, 'submit', e => {
     e.preventDefault();
@@ -193,7 +167,7 @@ function initAuthModals() {
     }, 1500);
   });
 
-  /* ---- register form submit ---- */
+
   const regForm = $('#register-form');
   on(regForm, 'submit', e => {
     e.preventDefault();
@@ -227,10 +201,7 @@ function initAuthModals() {
   });
 }
 
-/* ============================================================
-   5. CONTACT FORM (contact.html)
-      – Client-side validation + success feedback
-   ============================================================ */
+
 function initContactForm() {
   const form = $('#contact-form');
   if (!form) return;
@@ -273,10 +244,7 @@ function initContactForm() {
   });
 }
 
-/* ============================================================
-   6. BOOKING SEARCH FORM (index.html)
-      – Validate date range + redirect to rentals
-   ============================================================ */
+
 function initBookingForm() {
   const btn = $('.btn-search');
   if (!btn) return;
@@ -307,7 +275,7 @@ function initBookingForm() {
     window.location.href = `rentals.html?${params}`;
   });
 
-  // Set min dates to today
+  
   const today = new Date().toISOString().split('T')[0];
   const pickupInput = $('#pickup');
   const returnInput = $('#return');
@@ -321,11 +289,7 @@ function initBookingForm() {
   if (returnInput) returnInput.min = today;
 }
 
-/* ============================================================
-   7. RENTALS SEARCH BAR (rentals.html)
-      – Populate from URL params
-      – Set min dates
-   ============================================================ */
+
 function initRentalsSearch() {
   const bar = $('.rentals-search-bar');
   if (!bar) return;
@@ -340,7 +304,7 @@ function initRentalsSearch() {
     });
   }
 
-  // Restore from URL query params (from index page search)
+  
   const params   = new URLSearchParams(window.location.search);
   const locSel   = $('select', bar);
   if (locSel && params.get('location'))   locSel.value   = params.get('location');
@@ -348,10 +312,7 @@ function initRentalsSearch() {
   if (inputs[1] && params.get('return'))  inputs[1].value = params.get('return');
 }
 
-/* ============================================================
-   8. RENTALS FILTER SIDEBAR TOGGLE (rentals.html)
-      – Toggle on mobile via button
-   ============================================================ */
+
 function initFilterSidebarToggle() {
   const toggleBtn = $('#toggle-rentals-filters');
   const sidebar   = $('#rentals-filters');
@@ -365,18 +326,14 @@ function initFilterSidebarToggle() {
   });
 }
 
-/* ============================================================
-   9. RENTALS — LIVE SEARCH / FILTER (rentals.html)
-      – Filter cards by search text, category, transmission, fuel, seats
-      – Sort by price / rating
-   ============================================================ */
+
 function initRentalsFilters() {
   const grid = $('.rentals-cars-grid');
   if (!grid) return;
 
   const cards = $$('.rental-card', grid);
 
-  /* Extract data from a card */
+  
   const getData = card => ({
     name:         card.querySelector('h4')?.textContent.toLowerCase() || '',
     category:     card.querySelector('.v-tag')?.textContent.trim().toLowerCase() || '',
@@ -417,22 +374,22 @@ function initRentalsFilters() {
       return true;
     });
 
-    // Sort
+    
     if (sortVal.includes('Low to High')) {
       visible.sort((a, b) => getData(a).price - getData(b).price);
     } else if (sortVal.includes('High to Low')) {
       visible.sort((a, b) => getData(b).price - getData(a).price);
     }
 
-    // Show/hide
+    
     cards.forEach(c => { c.style.display = 'none'; });
     visible.forEach(c => { c.style.display = ''; });
 
-    // Update count
+  
     const countEl = $('.results-count');
     if (countEl) countEl.textContent = `${visible.length} car${visible.length !== 1 ? 's' : ''} found`;
 
-    // Empty state
+    
     let empty = $('#no-results');
     if (visible.length === 0) {
       if (!empty) {
@@ -447,7 +404,7 @@ function initRentalsFilters() {
     }
   }, 200);
 
-  // Attach listeners
+
   on($('.filter-search-input'), 'input', filterAndSort);
   on($('.filter-select'),       'change', filterAndSort);
   on($('.sort-select'),         'change', filterAndSort);
@@ -456,7 +413,6 @@ function initRentalsFilters() {
   $$('input[type="radio"]', $('#rentals-filters')).forEach(r => on(r, 'change', filterAndSort));
   $$('.price-input').forEach(inp => on(inp, 'input', filterAndSort));
 
-  // Clear all
   on($('.clear-all'), 'click', e => {
     e.preventDefault();
     $$('input[type="radio"]').forEach(r => r.checked = false);
@@ -467,9 +423,7 @@ function initRentalsFilters() {
   });
 }
 
-/* ============================================================
-   10. RENTALS — GRID / LIST VIEW TOGGLE (rentals.html)
-   ============================================================ */
+
 function initViewToggle() {
   const gridBtn = $('.view-btn:first-of-type');
   const listBtn = $('.view-btn:last-of-type');
@@ -489,10 +443,7 @@ function initViewToggle() {
   });
 }
 
-/* ============================================================
-   11. BOOKING TABS (booking.html)
-      – Filter booking cards by status tab
-   ============================================================ */
+
 function initBookingTabs() {
   const tabs = $$('.booking-tab');
   if (!tabs.length) return;
@@ -543,10 +494,7 @@ function initBookingTabs() {
   });
 }
 
-/* ============================================================
-   12. CANCEL BOOKING (booking.html)
-      – Confirmation dialog before cancelling
-   ============================================================ */
+
 function initCancelBooking() {
   on(document, 'click', e => {
     if (!e.target.closest('.btn-cancel-booking')) return;
@@ -582,9 +530,6 @@ function updateBookingTabCounts() {
   }
 }
 
-/* ============================================================
-   13. FAVOURITE / WISHLIST HEARTS (index.html)
-   ============================================================ */
 function initFavourites() {
   on(document, 'click', e => {
     const btn = e.target.closest('.v-fav');
@@ -604,9 +549,7 @@ function initFavourites() {
   });
 }
 
-/* ============================================================
-   14. TESTIMONIAL SLIDER (index.html)
-   ============================================================ */
+
 function initTestimonialSlider() {
   const card = $('.testimonial-card');
   if (!card) return;
@@ -674,10 +617,6 @@ function initTestimonialSlider() {
   on(card, 'mouseleave', () => { autoplay = setInterval(() => slide(1), 6000); });
 }
 
-/* ============================================================
-   15. ANIMATED STATS COUNTER
-      – Counts up when section scrolls into view
-   ============================================================ */
 function initStatsCounter() {
   const counters = $$('.stats-num, .about-stat-num');
   if (!counters.length) return;
@@ -714,9 +653,7 @@ function initStatsCounter() {
   counters.forEach(el => observer.observe(el));
 }
 
-/* ============================================================
-   16. SCROLL REVEAL (subtle fade-up on section entry)
-   ============================================================ */
+
 function initScrollReveal() {
   const targets = $$(
     '.feature-card, .vehicle-card, .rental-card, .booking-card, ' +
@@ -745,9 +682,7 @@ function initScrollReveal() {
   targets.forEach(el => observer.observe(el));
 }
 
-/* ============================================================
-   17. SEARCH BOX (header) — focus ring + clear on Escape
-   ============================================================ */
+
 function initHeaderSearch() {
   const input = $('input[type="search"]', $('header'));
   if (!input) return;
@@ -757,9 +692,7 @@ function initHeaderSearch() {
   });
 }
 
-/* ============================================================
-   18. BOOKING DATE RANGE (rentals.html inline search bar)
-   ============================================================ */
+
 function initRentalsDateRange() {
   const inputs = $$('.rsb-input[type="date"]');
   if (inputs.length < 2) return;
@@ -775,10 +708,7 @@ function initRentalsDateRange() {
   });
 }
 
-/* ============================================================
-   19. TOAST NOTIFICATIONS
-      – Global utility used throughout
-   ============================================================ */
+
 let toastContainer = null;
 
 function showToast(message, type = 'info', duration = 4000) {
@@ -859,16 +789,11 @@ function showToast(message, type = 'info', duration = 4000) {
   setTimeout(dismiss, duration);
 }
 
-/* ============================================================
-   HELPERS
-   ============================================================ */
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-/* ============================================================
-   BOOK-NOW BUTTONS — redirect with car info (all listing pages)
-   ============================================================ */
+
 function initBookNowButtons() {
   on(document, 'click', e => {
     const btn = e.target.closest('.btn-book');
@@ -883,9 +808,6 @@ function initBookNowButtons() {
   });
 }
 
-/* ============================================================
-   ACTIVE NAV LINK — highlight current page
-   ============================================================ */
 function initActiveNav() {
   const links    = $$('.main-nav a');
   const current  = window.location.pathname.split('/').pop() || 'index.html';
@@ -898,9 +820,7 @@ function initActiveNav() {
   });
 }
 
-/* ============================================================
-   SMOOTH SCROLL (for anchor links)
-   ============================================================ */
+
 function initSmoothScroll() {
   on(document, 'click', e => {
     const link = e.target.closest('a[href^="#"]');
@@ -915,12 +835,10 @@ function initSmoothScroll() {
   });
 }
 
-/* ============================================================
-   INIT — Run all modules on DOMContentLoaded
-   ============================================================ */
+
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Global (all pages)
+  
   initMobileNav();
   initStickyHeader();
   initBackToTop();
@@ -930,7 +848,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initStatsCounter();
 
-  // Page-specific — detect by elements present
+
   if ($('#login-modal') || $('#register-modal')) initAuthModals();
   if ($('#contact-form'))   initContactForm();
   if ($('#location'))       initBookingForm();
