@@ -3,17 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mashin Centre — My Bookings</title>
+    <title>Mashin Centre — Book a Car</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/booking-addon.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   </head>
-  <body id="top" class="page-bookings">
+  <body id="top">
 
     <div class="top-arrow">
       <a href="#top"><i class="fa-solid fa-arrow-up"></i></a>
     </div>
 
-    
+    <!-- HEADER — identical to every other page -->
     <header>
       <div class="container">
         <div class="navbar">
@@ -29,7 +30,7 @@
               <li><a href="index.html">Home</a></li>
               <li><a href="about.html">About</a></li>
               <li><a href="rentals.html">Car Rentals</a></li>
-              <li><a href="booking.html" class="active">My Bookings</a></li>
+              <li><a href="booking.html" class="active">Book a Car</a></li>
               <li><a href="contact.html">Contact</a></li>
             </ul>
           </nav>
@@ -38,187 +39,355 @@
               <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
               <input type="search" placeholder="Search products..." aria-label="Search products" />
             </div>
-            <div class="user-avatar" aria-hidden="true">FA</div>
-            <a href="index.html" class="btn-logout">Logout</a>
+            <a href="login.html" class="btn-login">Login</a>
           </div>
         </div>
       </div>
     </header>
 
     <main>
-      <section class="bookings-section">
+
+      <!-- HERO — same style as rentals-hero & contact-hero -->
+      <section class="bk-hero">
+        <div class="container">
+          <span class="section-tag"><i class="fa-solid fa-key"></i> Start Your Journey</span>
+          <h1 class="bk-hero-title">Book Your <span class="blue">Perfect Car</span></h1>
+          <p class="bk-hero-desc">Choose from our premium fleet, pick your dates, and hit the road.
+            No account needed to browse — sign in when you're ready to confirm.</p>
+        </div>
+      </section>
+
+      <!-- SEARCH BAR — reuses existing booking-form styles from style.css -->
+      <section class="booking-section">
+        <div class="container booking-container">
+          <p class="booking-label"><i class="fa-solid fa-car-side"></i> Search Available Cars</p>
+          <div class="booking-form">
+            <div class="form-group">
+              <label for="f-location">Location</label>
+              <div class="input-wrap">
+                <span class="input-icon"><i class="fa-solid fa-location-dot"></i></span>
+                <select id="f-location">
+                  <option value="">All Cities</option>
+                  <option value="accra">Accra</option>
+                  <option value="kumasi">Kumasi</option>
+                  <option value="takoradi">Takoradi</option>
+                  <option value="tarkwa">Tarkwa</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-divider"></div>
+            <div class="form-group">
+              <label for="f-pickup">Pickup Date</label>
+              <div class="input-wrap">
+                <input type="date" id="f-pickup" />
+              </div>
+            </div>
+            <div class="form-divider"></div>
+            <div class="form-group">
+              <label for="f-return">Return Date</label>
+              <div class="input-wrap">
+                <input type="date" id="f-return" />
+              </div>
+            </div>
+            <div class="form-divider"></div>
+            <div class="form-group">
+              <label for="f-type">Car Type</label>
+              <div class="input-wrap">
+                <span class="input-icon"><i class="fa-solid fa-car"></i></span>
+                <select id="f-type">
+                  <option value="">All Types</option>
+                  <option value="luxury">Luxury</option>
+                  <option value="suv">SUV</option>
+                  <option value="electric">Electric</option>
+                  <option value="sedan">Sedan</option>
+                  <option value="sports">Sports</option>
+                  <option value="van">Van</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn-search" id="searchBtn">
+              <i class="fa-solid fa-magnifying-glass"></i> Search Cars
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS — reuses features-section + features-grid from style.css -->
+      <section class="features-section">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-tag">Simple Process</span>
+            <h2>How It <span class="blue">Works</span></h2>
+            <p>Four easy steps to get you on the road</p>
+          </div>
+          <div class="features-grid">
+            <div class="feature-card bk-step-card">
+              <div class="feature-icon"><span class="bk-step-num">01</span></div>
+              <h4><i class="fa-solid fa-car"></i> Choose Your Car</h4>
+              <p>Browse our fleet and pick the perfect vehicle for your trip.</p>
+            </div>
+            <div class="feature-card bk-step-card">
+              <div class="feature-icon"><span class="bk-step-num">02</span></div>
+              <h4><i class="fa-solid fa-calendar-days"></i> Select Dates</h4>
+              <p>Set your pickup and return dates to check availability instantly.</p>
+            </div>
+            <div class="feature-card bk-step-card">
+              <div class="feature-icon"><span class="bk-step-num">03</span></div>
+              <h4><i class="fa-solid fa-user-check"></i> Sign In & Confirm</h4>
+              <p>Log in or create a free account to confirm your booking.</p>
+            </div>
+            <div class="feature-card bk-step-card">
+              <div class="feature-icon"><span class="bk-step-num">04</span></div>
+              <h4><i class="fa-solid fa-road"></i> Hit the Road</h4>
+              <p>Pick up your car and enjoy every kilometre of your journey.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AVAILABLE VEHICLES — reuses vehicles-section + vehicles-grid from style.css -->
+      <section class="vehicles-section">
         <div class="container">
 
-        
-          <div class="bookings-title-wrap">
-            <h1 class="bookings-title">My Bookings</h1>
-            <p class="bookings-subtitle"><i class="fa-solid fa-filter"></i> View and manage your car rental bookings</p>
+          <div class="section-header" style="text-align:left;margin-bottom:20px;">
+            <span class="section-tag">Our Fleet</span>
+            <h2>Available <span class="blue">Vehicles</span></h2>
+            <p id="resultsCount">Showing 6 vehicles</p>
           </div>
 
-          
-          <div class="booking-tabs">
-            <button class="booking-tab booking-tab-active">All <span class="tab-count">2</span></button>
-            <button class="booking-tab">Upcoming <span class="tab-count">2</span></button>
-            <button class="booking-tab">Active <span class="tab-count">0</span></button>
-            <button class="booking-tab">Past <span class="tab-count">0</span></button>
+          <!-- Pills + Sort -->
+          <div class="bk-bar">
+            <div class="bk-pills" id="typePills">
+              <button class="bk-pill bk-pill-active" data-type="all">All</button>
+              <button class="bk-pill" data-type="luxury">Luxury</button>
+              <button class="bk-pill" data-type="suv">SUV</button>
+              <button class="bk-pill" data-type="electric">Electric</button>
+              <button class="bk-pill" data-type="sedan">Sedan</button>
+              <button class="bk-pill" data-type="sports">Sports</button>
+              <button class="bk-pill" data-type="van">Van</button>
+            </div>
+            <div class="bk-sort">
+              <label for="sortBy">Sort by:</label>
+              <select id="sortBy">
+                <option value="default">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating">Best Rated</option>
+              </select>
+            </div>
           </div>
 
-          
-          <div class="bookings-list">
+          <!-- Vehicle Cards — use the exact same markup as index.html vehicles -->
+          <div class="vehicles-grid" id="vehiclesGrid">
 
-            
-            <div class="booking-card">
-              <div class="booking-card-inner">
-
-                
-                <div class="booking-car-img-wrap">
-                  <img src="images/car9.jpg" alt="Toyota Hiace Van" class="booking-car-img" />
-                  <span class="booking-status-badge pending">
-                    <i class="fa-regular fa-clock"></i> Pending
-                  </span>
+            <div class="vehicle-card" data-type="luxury" data-price="1500" data-rating="4.8" data-location="kumasi">
+              <div class="vehicle-img-wrap">
+                <span class="v-tag luxury">Luxury</span>
+                <span class="v-fav"><i class="fa-regular fa-heart"></i></span>
+                <img src="images/car1.jpg" alt="Mercedes-Benz C-Class" />
+              </div>
+              <div class="vehicle-info">
+                <h4>Mercedes-Benz C-Class</h4>
+                <div class="v-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(4.8)</span></div>
+                <div class="v-specs">
+                  <span><i class="fa-solid fa-user"></i> 5 Seats</span>
+                  <span><i class="fa-solid fa-box"></i> Petrol</span>
+                  <span><i class="fa-solid fa-car"></i> Automatic</span>
                 </div>
-
-                
-                <div class="booking-card-body">
-
-                  <div class="booking-car-meta">
-                    <h2 class="booking-car-name">Toyota Hiace Van</h2>
-                    <p class="booking-car-type"><i class="fa-solid fa-car-side"></i> Toyota &bull; Van</p>
+                <p class="v-location"><i class="fa-solid fa-location-dot"></i> Kumasi</p>
+                <div class="v-footer">
+                  <div>
+                    <p class="v-price-label">Price per day</p>
+                    <p class="v-price"><i class="fa-solid fa-cedi-sign"></i>1,500</p>
                   </div>
-
-                  
-                  <div class="booking-dates-grid">
-                    <div class="booking-date-box pickup-box">
-                      <p class="date-box-label"><i class="fa-regular fa-calendar-check"></i> Pickup</p>
-                      <p class="date-box-date">Dec 30, 2025</p>
-                      <p class="date-box-time"><i class="fa-regular fa-clock"></i> 02:00</p>
-                      <p class="date-box-location"><i class="fa-solid fa-location-dot"></i> Tarkwa</p>
-                    </div>
-                    <div class="booking-date-box return-box">
-                      <p class="date-box-label"><i class="fa-regular fa-calendar-xmark"></i> Return</p>
-                      <p class="date-box-date">Jan 9, 2026</p>
-                      <p class="date-box-time"><i class="fa-regular fa-clock"></i> 04:00</p>
-                      <p class="date-box-location"><i class="fa-solid fa-location-dot"></i> Tarkwa</p>
-                    </div>
+                  <div class="v-actions">
+                    <button class="btn-book" data-car="Mercedes-Benz C-Class" data-price="1500">Book Now</button>
                   </div>
-
-                
-                  <div class="booking-summary-row">
-                    <div class="booking-summary-item">
-                      <p class="summary-label">Duration</p>
-                      <p class="summary-value">10 days</p>
-                    </div>
-                    <div class="booking-summary-item">
-                      <p class="summary-label">Total Amount</p>
-                      <p class="summary-value summary-price"><i class="fa-solid fa-cedi-sign"></i>2950.00</p>
-                    </div>
-                    <div class="booking-summary-item">
-                      <p class="summary-label"><i class="fa-regular fa-credit-card"></i> Payment Status</p>
-                      <p class="summary-value summary-pending">Pending</p>
-                    </div>
-                  </div>
-
-              
-                  <div class="booking-actions">
-                    <a href="rentals.html" class="btn-view-car">View Car Details <i class="fa-solid fa-arrow-right"></i></a>
-                    <button class="btn-cancel-booking"><i class="fa-solid fa-xmark"></i> Cancel Booking</button>
-                  </div>
-
-              
-                  <div class="booking-reference">
-                    <i class="fa-regular fa-clock"></i> Booking Reference:
-                    <span class="ref-code">BKMMRMJSUSBASK</span>
-                  </div>
-
                 </div>
               </div>
             </div>
-            
 
-            
-            <div class="booking-card">
-              <div class="booking-card-inner">
-
-                
-                <div class="booking-car-img-wrap">
-                  <img src="images/car1.jpg" alt="Car" class="booking-car-img" />
-                  <span class="booking-status-badge pending">
-                    <i class="fa-regular fa-clock"></i> Pending
-                  </span>
+            <div class="vehicle-card" data-type="suv" data-price="800" data-rating="3.8" data-location="accra">
+              <div class="vehicle-img-wrap">
+                <span class="v-tag suv">SUV</span>
+                <span class="v-fav"><i class="fa-regular fa-heart"></i></span>
+                <img src="images/car5.jpg" alt="Honda CR-V 2023" />
+              </div>
+              <div class="vehicle-info">
+                <h4>Honda CR-V 2023</h4>
+                <div class="v-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(3.8)</span></div>
+                <div class="v-specs">
+                  <span><i class="fa-solid fa-user"></i> 7 Seats</span>
+                  <span><i class="fa-solid fa-box"></i> Petrol</span>
+                  <span><i class="fa-solid fa-car"></i> Automatic</span>
                 </div>
-
-            
-                <div class="booking-card-body">
-
-                  <div class="booking-car-meta">
-                    <h2 class="booking-car-name">Car</h2>
-                    <p class="booking-car-type"><i class="fa-solid fa-car-side"></i> Vehicle</p>
+                <p class="v-location"><i class="fa-solid fa-location-dot"></i> Accra</p>
+                <div class="v-footer">
+                  <div>
+                    <p class="v-price-label">Price per day</p>
+                    <p class="v-price"><i class="fa-solid fa-cedi-sign"></i>800</p>
                   </div>
-
-                  
-                  <div class="booking-dates-grid">
-                    <div class="booking-date-box pickup-box">
-                      <p class="date-box-label"><i class="fa-regular fa-calendar-check"></i> Pickup</p>
-                      <p class="date-box-date">Dec 25, 2025</p>
-                      <p class="date-box-time"><i class="fa-regular fa-clock"></i> 10:00</p>
-                      <p class="date-box-location"><i class="fa-solid fa-location-dot"></i> Kumasi</p>
-                    </div>
-                    <div class="booking-date-box return-box">
-                      <p class="date-box-label"><i class="fa-regular fa-calendar-xmark"></i> Return</p>
-                      <p class="date-box-date">Dec 26, 2025</p>
-                      <p class="date-box-time"><i class="fa-regular fa-clock"></i> 00:00</p>
-                      <p class="date-box-location"><i class="fa-solid fa-location-dot"></i> Kumasi</p>
-                    </div>
+                  <div class="v-actions">
+                    <button class="btn-book" data-car="Honda CR-V 2023" data-price="800">Book Now</button>
                   </div>
-
-                  
-                  <div class="booking-summary-row">
-                    <div class="booking-summary-item">
-                      <p class="summary-label">Duration</p>
-                      <p class="summary-value">1 days</p>
-                    </div>
-                    <div class="booking-summary-item">
-                      <p class="summary-label">Total Amount</p>
-                      <p class="summary-value summary-price"><i class="fa-solid fa-cedi-sign"></i>365.00</p>
-                    </div>
-                    <div class="booking-summary-item">
-                      <p class="summary-label"><i class="fa-regular fa-credit-card"></i> Payment Status</p>
-                      <p class="summary-value summary-pending">Pending</p>
-                    </div>
-                  </div>
-
-                  <div class="booking-actions">
-                    <a href="rentals.html" class="btn-view-car">View Car Details <i class="fa-solid fa-arrow-right"></i></a>
-                    <button type="button" class="btn-cancel-booking"><i class="fa-solid fa-xmark"></i> Cancel Booking</button>
-                  </div>
-
-                  <div class="booking-reference">
-                    <i class="fa-regular fa-clock"></i> Booking Reference:
-                    <span class="ref-code">BKMJK1PTASR3AJ</span>
-                  </div>
-
                 </div>
               </div>
             </div>
-          
 
+            <div class="vehicle-card" data-type="electric" data-price="1050" data-rating="5.0" data-location="takoradi">
+              <div class="vehicle-img-wrap">
+                <span class="v-tag electric">Electric</span>
+                <span class="v-fav"><i class="fa-regular fa-heart"></i></span>
+                <img src="images/car6.jpg" alt="Tesla Model 3" />
+              </div>
+              <div class="vehicle-info">
+                <h4>Tesla Model 3</h4>
+                <div class="v-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(5.0)</span></div>
+                <div class="v-specs">
+                  <span><i class="fa-solid fa-user"></i> 5 Seats</span>
+                  <span><i class="fa-solid fa-bolt-lightning"></i> Electric</span>
+                  <span><i class="fa-solid fa-car"></i> Automatic</span>
+                </div>
+                <p class="v-location"><i class="fa-solid fa-location-dot"></i> Takoradi</p>
+                <div class="v-footer">
+                  <div>
+                    <p class="v-price-label">Price per day</p>
+                    <p class="v-price"><i class="fa-solid fa-cedi-sign"></i>1,050</p>
+                  </div>
+                  <div class="v-actions">
+                    <button class="btn-book" data-car="Tesla Model 3" data-price="1050">Book Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-card" data-type="sedan" data-price="900" data-rating="4.8" data-location="accra">
+              <div class="vehicle-img-wrap">
+                <span class="v-tag sedan">Sedan</span>
+                <span class="v-fav"><i class="fa-regular fa-heart"></i></span>
+                <img src="images/car7.jpg" alt="Toyota Camry 2023" />
+              </div>
+              <div class="vehicle-info">
+                <h4>Toyota Camry 2023</h4>
+                <div class="v-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(4.8)</span></div>
+                <div class="v-specs">
+                  <span><i class="fa-solid fa-user"></i> 5 Seats</span>
+                  <span><i class="fa-solid fa-box"></i> Petrol</span>
+                  <span><i class="fa-solid fa-car"></i> Automatic</span>
+                </div>
+                <p class="v-location"><i class="fa-solid fa-location-dot"></i> Accra</p>
+                <div class="v-footer">
+                  <div>
+                    <p class="v-price-label">Price per day</p>
+                    <p class="v-price"><i class="fa-solid fa-cedi-sign"></i>900</p>
+                  </div>
+                  <div class="v-actions">
+                    <button class="btn-book" data-car="Toyota Camry 2023" data-price="900">Book Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-card" data-type="sports" data-price="1000" data-rating="4.0" data-location="accra">
+              <div class="vehicle-img-wrap">
+                <span class="v-tag sports">Sports</span>
+                <span class="v-fav"><i class="fa-regular fa-heart"></i></span>
+                <img src="images/car8.jpg" alt="Ford Mustang GT" />
+              </div>
+              <div class="vehicle-info">
+                <h4>Ford Mustang GT</h4>
+                <div class="v-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(4.0)</span></div>
+                <div class="v-specs">
+                  <span><i class="fa-solid fa-user"></i> 4 Seats</span>
+                  <span><i class="fa-solid fa-box"></i> Petrol</span>
+                  <span><i class="fa-solid fa-car"></i> Manual</span>
+                </div>
+                <p class="v-location"><i class="fa-solid fa-location-dot"></i> Accra</p>
+                <div class="v-footer">
+                  <div>
+                    <p class="v-price-label">Price per day</p>
+                    <p class="v-price"><i class="fa-solid fa-cedi-sign"></i>1,000</p>
+                  </div>
+                  <div class="v-actions">
+                    <button class="btn-book" data-car="Ford Mustang GT" data-price="1000">Book Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-card" data-type="van" data-price="600" data-rating="4.4" data-location="tarkwa">
+              <div class="vehicle-img-wrap">
+                <span class="v-tag van">Van</span>
+                <span class="v-fav"><i class="fa-regular fa-heart"></i></span>
+                <img src="images/car9.jpg" alt="Toyota Hiace Van" />
+              </div>
+              <div class="vehicle-info">
+                <h4>Toyota Hiace Van</h4>
+                <div class="v-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span>(4.4)</span></div>
+                <div class="v-specs">
+                  <span><i class="fa-solid fa-user"></i> 12 Seats</span>
+                  <span><i class="fa-solid fa-box"></i> Diesel</span>
+                  <span><i class="fa-solid fa-car"></i> Automatic</span>
+                </div>
+                <p class="v-location"><i class="fa-solid fa-location-dot"></i> Tarkwa</p>
+                <div class="v-footer">
+                  <div>
+                    <p class="v-price-label">Price per day</p>
+                    <p class="v-price"><i class="fa-solid fa-cedi-sign"></i>600</p>
+                  </div>
+                  <div class="v-actions">
+                    <button class="btn-book" data-car="Toyota Hiace Van" data-price="600">Book Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- end vehicles-grid -->
+
+          <div class="bk-no-results" id="noResults" style="display:none;">
+            <i class="fa-solid fa-car-burst"></i>
+            <p>No vehicles found matching your filters.</p>
+            <button class="btn-search" id="resetBtn" style="margin-top:12px;">Clear Filters</button>
           </div>
-          
 
         </div>
       </section>
+
     </main>
 
-    <!-- Footer -->
+    <!-- LOGIN MODAL — reuses existing modal classes from style.css -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <button class="modal-close" id="modalClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <div class="modal-header">
+          <div class="bk-modal-lock"><i class="fa-solid fa-lock"></i></div>
+          <h2 class="modal-title" id="modalTitle">Sign In to Book</h2>
+          <p class="modal-subtitle">You selected: <strong id="modalCarName" style="color:#2563eb;"></strong></p>
+        </div>
+        <p class="bk-modal-desc">Create a free account or log in to confirm your booking. It only takes a minute.</p>
+        <div class="bk-modal-summary" id="modalSummary"></div>
+        <div class="bk-modal-actions">
+          <a href="login.html" class="btn-modal-submit bk-btn-full">
+            <i class="fa-solid fa-right-to-bracket"></i> Log In
+          </a>
+          <a href="register.html" class="bk-btn-register">
+            <i class="fa-solid fa-user-plus"></i> Create Account
+          </a>
+        </div>
+        <p class="bk-modal-note">
+          <i class="fa-solid fa-shield-halved"></i> Your selection will be saved after login.
+        </p>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
     <footer>
       <div class="footer-container">
         <div class="footer-brand">
           <div class="footer-logo">
             <span class="logo-text" style="color:#f9fafb;">Mashin</span>
           </div>
-          <p class="footer-desc">
-            Your trusted partner for vehicle sales, repair, and assembly services across Ghana. Quality service and customer satisfaction guaranteed.
-          </p>
+          <p class="footer-desc">Your trusted partner for vehicle sales, repair, and assembly services across Ghana. Quality service and customer satisfaction guaranteed.</p>
           <p class="footer-phone">0547378375 / 0505602895</p>
           <div class="footer-socials">
             <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
@@ -228,12 +397,7 @@
         </div>
         <div class="footer-col">
           <h4>Our Locations</h4>
-          <ul>
-            <li>Accra</li>
-            <li>Takoradi</li>
-            <li>Tarkwa</li>
-            <li>Kumasi</li>
-          </ul>
+          <ul><li>Accra</li><li>Takoradi</li><li>Tarkwa</li><li>Kumasi</li></ul>
         </div>
         <div class="footer-col">
           <h4>Our Services</h4>
@@ -248,14 +412,14 @@
           <h4>Quick Links</h4>
           <ul>
             <li><a href="about.html">About Us</a></li>
-            <li><a href="booking.html">Services</a></li>
+            <li><a href="booking.html">Book a Car</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="about.html">Careers</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2026 Mashin Centre Ltd. All rights reserved.</p>
+        <p><i class="fa-regular fa-copyright"></i> 2026 Mashin Centre Ltd. All rights reserved.</p>
         <div class="footer-bottom-links">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
@@ -263,6 +427,6 @@
       </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script src="js/booking.js"></script>
   </body>
 </html>
