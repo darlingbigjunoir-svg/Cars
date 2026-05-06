@@ -2718,6 +2718,23 @@ header {
   transition: transform var(--transition), box-shadow var(--transition);
   animation: fadeUp .45s ease both;
 }
+.vehicle-card .btn-details,
+.vehicle-card .btn-book {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  outline: none;
+}
+
+.vehicle-card .btn-details:hover {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  border: none;
+}
+
+.vehicle-card .btn-book:hover {
+  background-color: #1d4ed8;
+}
 .vehicle-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
