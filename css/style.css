@@ -2735,6 +2735,7 @@ header {
 .vehicle-card .btn-book:hover {
   background-color: #1d4ed8;
 }
+
 .vehicle-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
